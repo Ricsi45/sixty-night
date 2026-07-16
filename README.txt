@@ -1,15 +1,23 @@
-SIXTY NIGHT V9 – PARTY PARK KIADÁS
+SIXTY NIGHT V10
 
-Fő változások:
-- A helyszín neve mindenhol: Sixty Night Party Park
-- Új, látványos Party Park márkablokk a főoldalon
-- Átdolgozott helyszínoldal
-- Google Térkép és útvonaltervező
-- VZS szerepel az eddigi fellépők között
-- Megmaradtak az aftermovie-k, eseményoldalak és a teljes mobilos menü
+Márkanév:
+- Sixty Night Party
+
+Szlogen:
+- Az éjszaka a tiéd.
+
+Főbb változások:
+- A Production szó minden oldalról eltávolítva
+- Új főoldali hero szöveg
+- Új szlogenblokk
+- Egységes lábléc
+- Rólunk oldal új márkaüzenettel
+- Sixty Night Party Park név változatlanul megmaradt
+- VZS továbbra is szerepel a fellépők között
+- Aftermovie-k és térkép továbbra is működnek
 
 GitHub feltöltés:
 1. Csomagold ki a ZIP-et.
-2. A mappa TARTALMÁT töltsd fel a repository gyökerébe.
+2. A mappa tartalmát töltsd fel a repository gyökerébe.
 3. Írd felül a meglévő fájlokat.
 4. Commit changes.
