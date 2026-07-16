@@ -1,13 +1,15 @@
-SIXTY NIGHT V7 PREMIUM
+SIXTY NIGHT V9 – PARTY PARK KIADÁS
 
-Új oldalak:
-- vip.html
-- kapcsolat.html
+Fő változások:
+- A helyszín neve mindenhol: Sixty Night Party Park
+- Új, látványos Party Park márkablokk a főoldalon
+- Átdolgozott helyszínoldal
+- Google Térkép és útvonaltervező
+- VZS szerepel az eddigi fellépők között
+- Megmaradtak az aftermovie-k, eseményoldalak és a teljes mobilos menü
 
-Frissítve:
-- Rólunk oldal részletes bemutatkozással
-- Főoldali új navigáció és kiemelt blokkok
-- Mobilmenü
-
-Feltöltés GitHubra:
-A ZIP tartalmát kell a repository gyökerébe feltölteni, a meglévő fájlok felülírásával.
+GitHub feltöltés:
+1. Csomagold ki a ZIP-et.
+2. A mappa TARTALMÁT töltsd fel a repository gyökerébe.
+3. Írd felül a meglévő fájlokat.
+4. Commit changes.
