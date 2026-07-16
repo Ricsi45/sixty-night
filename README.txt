@@ -1,22 +1,13 @@
-SIXTY NIGHT V6 PREMIUM – KÖNNYÍTETT, TELEFONBARÁT CSOMAG
-
-Főoldal:
-- index.html
+SIXTY NIGHT V7 PREMIUM
 
 Új oldalak:
-- mulat-hatvan.html
-- helyszin.html
-- videotar.html
-- fellepok.html
+- vip.html
+- kapcsolat.html
 
-Meglévő oldalak:
-- esemenyek.html
-- rolunk.html
-- uv-cirkusz.html
-- holi-jungle.html
+Frissítve:
+- Rólunk oldal részletes bemutatkozással
+- Főoldali új navigáció és kiemelt blokkok
+- Mobilmenü
 
-A két tömörített aftermovie az assets mappában található.
-A teljes mappát egyben kell megtartani.
-
-Google Térkép:
-https://maps.app.goo.gl/rPdR8HRAXuW4keMn8?g_st=ic
+Feltöltés GitHubra:
+A ZIP tartalmát kell a repository gyökerébe feltölteni, a meglévő fájlok felülírásával.
