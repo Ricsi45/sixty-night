@@ -2,32 +2,42 @@
 <html lang="hu">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sixty Night Firebase ellenőrzés</title>
+<title>Sixty Night Firebase teszt</title>
 <style>
-body{font-family:Arial,sans-serif;background:#08080d;color:#fff;min-height:100vh;display:grid;place-items:center;margin:0;padding:20px}
-main{width:min(720px,100%);padding:28px;border:1px solid rgba(255,255,255,.15);border-radius:22px;background:#12121a}
-.ok{color:#57e69a}.bad{color:#ff7584}code{word-break:break-all;color:#9de7ff}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#07070c;color:white;font-family:Arial,sans-serif;padding:20px}
+main{width:min(760px,100%);padding:28px;border:1px solid rgba(255,255,255,.15);border-radius:24px;background:#12121c}
+.box{padding:14px;border-radius:12px;background:#1b1b28;margin:12px 0}.ok{color:#58e69b}.bad{color:#ff7a88}.wait{color:#ffd479}
+code{word-break:break-all;color:#aeeeff}.btn{display:inline-block;padding:12px 18px;border-radius:999px;background:#ff2ca8;color:white;text-decoration:none;font-weight:800}
 </style>
 </head>
 <body><main>
-<h1>Firebase kapcsolat ellenőrzése</h1>
-<p id="status">Ellenőrzés folyamatban…</p>
-<pre id="details"></pre>
+<h1>Sixty Night Firebase ellenőrzés</h1>
+<div id="status" class="box wait">Ellenőrzés folyamatban…</div>
+<div id="details" class="box"></div>
+<a class="btn" href="/admin/">Admin megnyitása</a>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-import { firebaseConfig } from "./assets/js/firebase-config.js";
-const status=document.getElementById("status"), details=document.getElementById("details");
-try {
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
+import { firebaseConfig, ADMIN_EMAIL } from "./assets/js/firebase-config.js?v=3.0.0";
+
+const status=document.getElementById("status"),details=document.getElementById("details");
+try{
   const app=initializeApp(firebaseConfig);
-  getAuth(app);
-  status.className="ok";
-  status.textContent="✅ A Firebase konfiguráció betöltődött.";
-  details.textContent="Projekt: "+firebaseConfig.projectId+"\nAuth domain: "+firebaseConfig.authDomain+"\nAPI-kulcs vége: "+firebaseConfig.apiKey.slice(-5);
-} catch(e) {
-  status.className="bad";
-  status.textContent="❌ Hiba történt.";
-  details.textContent=e.stack||e.message;
+  getAuth(app); getFirestore(app); getStorage(app);
+  status.className="box ok";
+  status.textContent="✅ A Firebase konfiguráció sikeresen betöltődött.";
+  details.innerHTML=
+    "<b>Projekt:</b> "+firebaseConfig.projectId+
+    "<br><b>Auth domain:</b> "+firebaseConfig.authDomain+
+    "<br><b>Storage:</b> "+firebaseConfig.storageBucket+
+    "<br><b>Admin:</b> "+ADMIN_EMAIL+
+    "<br><b>API-kulcs vége:</b> "+firebaseConfig.apiKey.slice(-5);
+}catch(e){
+  status.className="box bad";
+  status.textContent="❌ Firebase-hiba";
+  details.textContent=e.stack||e.message||String(e);
 }
 </script>
 </main></body></html>

@@ -3,15 +3,42 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/fireba
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 import { getFirestore, collection, doc, addDoc, setDoc, updateDoc, deleteDoc, getDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
-import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js?v=2.0.1";
+import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js?v=3.0.0";
 
-const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app), storage=getStorage(app);
+let app, auth, db, storage;
+try {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+  storage = getStorage(app);
+} catch (error) {
+  document.addEventListener("DOMContentLoaded", () => {
+    const errorBox = document.getElementById("loginError");
+    if (errorBox) {
+      errorBox.textContent = "Firebase inicializálási hiba: " + (error?.message || error);
+    }
+  });
+  throw error;
+}
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 const toast=(m,type="ok")=>{const t=$("toast");t.textContent=m;t.className=`toast ${type}`;setTimeout(()=>t.className="toast hidden",3500)};
 const isAdmin=u=>u && u.email && u.email.toLowerCase()===ADMIN_EMAIL.toLowerCase();
 
-$("loginBtn").onclick=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){$("loginError").textContent=e.message}};
+$("loginBtn").onclick=async()=>{
+  $("loginError").textContent="";
+  try {
+    await signInWithPopup(auth,new GoogleAuthProvider());
+  } catch(e) {
+    const messages={
+      "auth/popup-blocked":"A böngésző blokkolta a bejelentkezési ablakot. Engedélyezd a felugró ablakokat.",
+      "auth/popup-closed-by-user":"A bejelentkezési ablak bezárult.",
+      "auth/unauthorized-domain":"A sixtynight.hu még nincs engedélyezve a Firebase Authorized domains listájában.",
+      "auth/api-key-not-valid.-please-pass-a-valid-api-key.":"A Firebase API-kulcs hibás."
+    };
+    $("loginError").textContent=messages[e.code]||("Firebase: "+(e.message||e.code));
+  }
+};
 $("logoutBtn").onclick=()=>signOut(auth);
 
 onAuthStateChanged(auth,async user=>{

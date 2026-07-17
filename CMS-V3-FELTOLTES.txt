@@ -1,0 +1,28 @@
+SIXTY NIGHT CMS V3 – FELTÖLTÉS
+
+1. Csomagold ki a ZIP-et.
+2. A kicsomagolt mappa TELJES TARTALMÁT töltsd fel a GitHub repository gyökerébe.
+3. Fontos, hogy az admin mappa is felkerüljön.
+4. Commit üzenet:
+   Sixty Night CMS V3
+
+5. Várj 1–3 percet.
+
+6. Teszt:
+   https://sixtynight.hu/firebase-test.html
+
+7. Admin:
+   https://sixtynight.hu/admin/
+   vagy:
+   https://sixtynight.hu/admin.html
+
+8. Ha 404 jelenik meg, akkor az admin mappa vagy a firebase-test.html nem került fel.
+9. Ha régi oldal jelenik meg, használj Ctrl+F5 frissítést.
+
+GITHUB TITOKRIASZTÁS
+A Firebase böngészős apiKey kliensoldali konfiguráció, ezért nyilvánosan szerepel a weboldalon.
+A hozzáférést a Firestore és Storage szabályok védik.
+A GitHub ettől még automatikusan küldhet figyelmeztetést.
+
+ADMIN FIÓK
+csabanagy34@gmail.com
