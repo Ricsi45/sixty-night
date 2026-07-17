@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email == "csabanagy34@gmail.com";
+    }
+
+    match /events/{id} { allow read: if resource.data.published == true || isAdmin(); allow write: if isAdmin(); }
+    match /performers/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /albums/{id} { allow read: if resource.data.published == true || isAdmin(); allow write: if isAdmin(); }
+    match /photos/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /videos/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /sponsors/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /tickets/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /settings/{id} { allow read: if true; allow write: if isAdmin(); }
+  }
+}

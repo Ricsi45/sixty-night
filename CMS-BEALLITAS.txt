@@ -1,0 +1,45 @@
+SIxty Night CMS V1 – BEÁLLÍTÁS
+
+A csomag elkészült, de az admin kizárólagos hozzáféréséhez egyetlen adat hiányzik:
+a saját Google e-mail-címed.
+
+1. Nyisd meg:
+   assets/js/firebase-config.js
+
+2. Ezt:
+   csabanagy34@gmail.com
+   cseréld ki a saját Google e-mail-címedre.
+
+3. Firebase Console → Firestore Database → Rules:
+   másold be a firestore.rules teljes tartalmát,
+   majd ugyanazt a helyőrzőt cseréld ki az e-mail-címedre, és Publish.
+
+4. Firebase Console → Storage → Rules:
+   másold be a storage.rules teljes tartalmát,
+   cseréld ki a helyőrzőt, és Publish.
+
+5. Firebase Console → Authentication → Settings → Authorized domains:
+   ellenőrizd, hogy szerepel:
+   sixtynight.hu
+   www.sixtynight.hu (ha ezt is használod)
+
+6. Töltsd fel a csomag tartalmát a GitHub repository gyökerébe.
+
+7. Admin:
+   https://sixtynight.hu/admin.html
+
+FUNKCIÓK
+- Google-belépés, kizárólagos admin
+- Események + borítókép + Tixa-link
+- Fellépők + profilkép
+- Albumok + Facebook-link
+- Tömeges kép-feltöltés és webes optimalizálás
+- Albumképek törlése
+- Videók
+- Szponzorok + logók
+- Jegyek
+- Weboldal-beállítások
+- Nyilvános oldalak Firebase-adatokkal
+
+BIZTONSÁG
+A firebaseConfig apiKey nyilvános webkonfiguráció. A tényleges védelmet a Firestore- és Storage-szabályok biztosítják.

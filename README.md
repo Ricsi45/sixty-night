@@ -1,17 +1,7 @@
-# Sixty Night Party
+# Sixty Night Party CMS V1
 
-Official website of Sixty Night Party.
+Firebase-alapú tartalomkezelő rendszer a Sixty Night Party weboldalhoz.
 
-**Domain:** https://sixtynight.hu  
-**Slogan:** Az éjszaka a tiéd.
+Admin: `/admin.html`
 
-## Deployment
-
-The website is deployed with GitHub Pages from the `main` branch and repository root.
-
-## Important files
-
-- `index.html` – homepage
-- `CNAME` – custom domain configuration
-- `assets/` – media files
-- `admin.html` – admin interface preview
+A telepítés előtt olvasd el a `CMS-BEALLITAS.txt` fájlt, és állítsd be a tulajdonosi Google e-mail-címet.

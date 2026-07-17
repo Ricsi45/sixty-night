@@ -1,0 +1,36 @@
+SIXTY NIGHT CMS V1 – VÉGLEGES TELEPÍTÉS
+
+Admin e-mail:
+csabanagy34@gmail.com
+
+1. FIRESTORE SZABÁLYOK
+Firebase Console → Firestore Database → Rules
+Másold be a firestore.rules teljes tartalmát, majd kattints a Publish gombra.
+
+2. STORAGE SZABÁLYOK
+Firebase Console → Storage → Rules
+Másold be a storage.rules teljes tartalmát, majd kattints a Publish gombra.
+
+3. ENGEDÉLYEZETT DOMAIN
+Firebase Console → Authentication → Settings → Authorized domains
+Ellenőrizd, hogy szerepel:
+- sixtynight.hu
+- www.sixtynight.hu, amennyiben ezt is használod
+
+4. GITHUB FELTÖLTÉS
+A ZIP-et csomagold ki.
+A mappa teljes tartalmát töltsd fel a GitHub repository gyökerébe.
+Az index.html, admin.html, CNAME és assets mappa közvetlenül a gyökérben legyen.
+
+Commit üzenet:
+Sixty Night CMS V1 final
+
+5. ADMIN BELÉPÉS
+https://sixtynight.hu/admin.html
+
+Kizárólag ezzel a Google-fiókkal engedélyezett:
+csabanagy34@gmail.com
+
+FONTOS
+Először mindig publikáld a Firestore- és Storage-szabályokat.
+Enélkül a feltöltés és mentés jogosultsági hibát adhat.
