@@ -2,7 +2,7 @@
 <html lang="hu">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sixty Night CMS V3</title>
+<title>Sixty Night CMS V6</title>
 <link rel="stylesheet" href="assets/css/cms.css">
 </head>
 <body>
@@ -10,7 +10,7 @@
   <div class="login-card">
     <div style="font-size:3rem">🎛️</div>
     <h1>Sixty Night CMS</h1>
-    <p>Jelentkezz be a tulajdonosi Google-fiókkal. Az adminból kezelheted az eseményeket, fellépőket, albumokat, képeket, videókat, szponzorokat és jegylinkeket.</p>
+    <p>Jelentkezz be a tulajdonosi Google-fiókkal. Az adminból kezelheted az eseményeket, fellépőket, albumokat, képeket, videókat, szponzorokat, jegylinkeket és a weboldal oldalait.</p>
     <button id="loginBtn" class="btn primary">Belépés Google-fiókkal</button>
     <p id="loginError" style="color:#ff8a96"></p>
   </div>
@@ -27,6 +27,7 @@
       <button data-view="videos">🎥 Videók</button>
       <button data-view="sponsors">🤝 Szponzorok</button>
       <button data-view="tickets">🎟️ Jegyek</button>
+      <button data-view="pages">📄 Oldalak</button>
       <button data-view="settings">⚙️ Beállítások</button>
     </nav>
     <div class="sidebar-bottom"><button id="logoutBtn" class="btn ghost" style="width:100%">Kijelentkezés</button></div>
@@ -44,6 +45,7 @@
         <div class="stat"><strong id="countPerformers">0</strong><span>Fellépő</span></div>
         <div class="stat"><strong id="countAlbums">0</strong><span>Album</span></div>
         <div class="stat"><strong id="countPhotos">0</strong><span>Fotó</span></div>
+        <div class="stat"><strong id="countPages">0</strong><span>Oldal</span></div>
       </div>
       <div class="panel" style="margin-bottom:18px">
       <div class="panel-head"><h2>Teljes jelenlegi weboldaltartalom</h2></div>
@@ -57,13 +59,15 @@
           <div class="stat"><strong>2</strong><span>Aftermovie</span></div>
           <div class="stat"><strong>20</strong><span>Fellépő</span></div>
         </div>
-        <button id="importExistingBtn" class="btn ghost">Meglévő tartalom újratöltése</button>
+        <button id="importExistingBtn" class="btn ghost">Hiányzó alapadatok pótlása</button>
+        <button id="cleanupDuplicatesBtn" class="btn ghost">Duplikációk tisztítása</button>
       </div>
     </div>
     <div class="panel"><div class="panel-head"><h2>Gyors műveletek</h2></div><div class="panel-body actions">
         <button class="btn primary" data-jump="events">Új esemény</button>
         <button class="btn primary" data-jump="albums">Új album</button>
         <button class="btn ghost" data-jump="performers">Új fellépő</button>
+        <button class="btn ghost" data-jump="pages">Új oldal</button>
       </div></div>
     </section>
 
@@ -129,6 +133,32 @@
       <div id="ticketsList" class="list" style="margin-top:20px"></div>
     </div></div></section>
 
+
+    <section id="pagesView" class="view hidden">
+      <div class="panel"><div class="panel-head"><h2>Oldal létrehozása / szerkesztése</h2></div><div class="panel-body">
+        <input type="hidden" id="pageId">
+        <div class="notice">Egyedi oldalnál a rendszer automatikusan létrehozza a publikus linket. Meglévő oldalnál a címet és a bevezetőt módosíthatod, vagy a teljes fő tartalmat felülírhatod.</div>
+        <div class="grid">
+          <label>Oldal neve<input id="pageTitle" placeholder="Például: Házirend"></label>
+          <label>Menü felirata<input id="pageMenuLabel" placeholder="Például: Házirend"></label>
+          <label>Oldal típusa<select id="pagePageType"><option value="custom">Új, egyedi oldal</option><option value="existing">Meglévő oldal szerkesztése</option></select></label>
+          <label>URL azonosító<input id="pageSlug" placeholder="hazirend"></label>
+          <label>Meglévő oldal<select id="pageTargetPath"><option value="">Válassz oldalt</option><option value="index.html">Főoldal</option><option value="mulat-hatvan.html">Mulat Hatvan</option><option value="esemenyek.html">Események</option><option value="fotok.html">Fotók</option><option value="videotar.html">Videótár</option><option value="fellepok.html">Fellépők</option><option value="rolunk.html">Rólunk</option><option value="helyszin.html">Helyszín</option><option value="vip.html">VIP</option><option value="kapcsolat.html">Kapcsolat</option></select></label>
+          <label>Sorrend<input type="number" id="pageOrder" value="50"></label>
+          <label>Felső kis felirat<input id="pageEyebrow" value="SIXTY NIGHT PARTY"></label>
+          <label>Főcím<input id="pageHeroTitle"></label>
+          <label class="full">Bevezető<textarea id="pageIntro"></textarea></label>
+          <label class="full">Oldal tartalma (HTML is használható)<textarea id="pageBodyHtml" style="min-height:260px" placeholder="<h2>Cím</h2><p>Szöveg...</p>"></textarea></label>
+          <label>Borítókép<input type="file" id="pageCover" accept="image/*"></label>
+          <label>Publikus<select id="pagePublished"><option value="true">Igen</option><option value="false">Nem</option></select></label>
+          <label>Megjelenjen a menüben<select id="pageMenuVisible"><option value="true">Igen</option><option value="false">Nem</option></select></label>
+          <label>Teljes fő tartalom felülírása<select id="pageReplaceMain"><option value="false">Nem</option><option value="true">Igen</option></select></label>
+        </div>
+        <div class="actions"><button id="savePage" class="btn primary">Oldal mentése</button><button id="resetPage" class="btn ghost">Új űrlap</button><a id="pagePreview" class="btn ghost hidden" target="_blank" rel="noopener">Előnézet</a></div>
+      </div></div>
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><h2>Mentett oldalak</h2></div><div class="panel-body"><div id="pagesList" class="list"></div></div></div>
+    </section>
+
     <section id="settingsView" class="view hidden"><div class="panel"><div class="panel-head"><h2>Weboldal-beállítások</h2></div><div class="panel-body">
       <div class="grid"><label>Főcím<input id="settingHeroTitle" value="AZ ÉJSZAKA A TIÉD."></label><label>Kiemelt esemény<input id="settingFeaturedEvent"></label><label>Kapcsolati e-mail<input type="email" id="settingEmail"></label><label>Telefonszám<input id="settingPhone"></label><label>Facebook<input id="settingFacebook"></label><label>Instagram<input id="settingInstagram"></label><label class="full">Helyszín<input id="settingLocation" value="Sixty Night Party Park"></label></div>
       <div class="actions"><button id="saveSettings" class="btn primary">Beállítások mentése</button></div>
@@ -136,5 +166,5 @@
   </main>
 </div>
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="assets/js/cms.js?v=4.0.0"></script>
+<script type="module" src="assets/js/cms.js?v=6.0.0"></script>
 </body></html>

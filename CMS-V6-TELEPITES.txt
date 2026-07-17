@@ -1,0 +1,14 @@
+SIXTY NIGHT CMS V6 – STABIL JAVÍTÁS
+
+1. A ZIP teljes tartalmát töltsd fel a GitHub repository gyökerébe.
+2. A meglévő fájlok felülírását engedélyezd.
+3. Firebase Console > Firestore Database > Rules alatt másold be a firestore.rules tartalmát, majd Publish.
+4. Nyisd meg: https://sixtynight.hu/admin.html
+5. A Dashboardon egyszer kattints a „Duplikációk tisztítása” gombra.
+6. A nyilvános oldalt Ctrl + F5-tel frissítsd.
+
+FONTOS:
+- A publikus oldalak most kizárólag az assets/js/public-site.js fájlt használják.
+- A régi, egymással ütköző publikus szkriptek ki lettek véve.
+- Az „Oldalak” menüpontban új oldalt adhatsz hozzá és meglévő oldalt szerkeszthetsz.
+- Egyedi oldal címe: oldal.html?slug=az-oldal-neve
