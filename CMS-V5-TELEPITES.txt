@@ -1,0 +1,28 @@
+SIXTY NIGHT CMS V5
+
+ÚJDONSÁGOK
+- Google belépés popup módban.
+- Külön átirányításos belépési gomb.
+- Popup hiba esetén automatikus redirect fallback.
+- Tartós bejelentkezés normál böngészőben.
+- Teljes meglévő tartalom azonnal látható.
+- Szerkesztéskor Firebase-be ment.
+- Törléskor elrejtésre kerül.
+- Események, albumok, videók, fellépők, szponzorok és beállítások teljes kezelése.
+
+TELEPÍTÉS
+1. Csomagold ki a ZIP-et.
+2. A teljes tartalmát töltsd fel a GitHub repository gyökerébe.
+3. Commit:
+   Sixty Night CMS V5
+4. Várj 1–3 percet.
+5. Nyisd meg:
+   https://sixtynight.hu/admin/?v=500
+6. Nyomj Ctrl+F5-öt.
+7. Ha a normál Google gomb nem működik, használd a
+   „Belépés átirányítással” gombot.
+
+FONTOS
+A Firebase Authentication Authorized domains listájában szerepeljen:
+- sixtynight.hu
+- www.sixtynight.hu, ha használod
