@@ -1,13 +1,42 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
-import { firebaseConfig } from "./firebase-config.js?v=5.0.0";
+import { firebaseConfig } from "./firebase-config.js?v=4.0.0";
 const app=initializeApp(firebaseConfig),db=getFirestore(app);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 async function readCollection(name){const s=await getDocs(collection(db,name));return s.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x.published!==false)}
+
+function normalizeAlbumName(value){
+ return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+}
+function syncStaticAlbumCards(albums,photos){
+ const cards=[...document.querySelectorAll(".photo-album-card")];
+ for(const card of cards){
+  const title=card.querySelector("h3")?.textContent?.trim();
+  if(!title) continue;
+  const key=normalizeAlbumName(title);
+  const album=albums.find(a=>normalizeAlbumName(a.name)===key);
+  if(!album) continue;
+  const firstPhoto=photos.find(p=>p.albumId===album.id);
+  const cover=album.coverUrl||firstPhoto?.url||"";
+  if(cover){
+   const coverEl=card.querySelector(".photo-cover");
+   if(coverEl){
+    coverEl.style.backgroundImage=`url("${String(cover).replace(/"/g,"\\"")}")`;
+    coverEl.dataset.firebaseCover="true";
+   }
+  }
+  const desc=card.querySelector(".photo-album-body p");
+  if(desc && album.description) desc.textContent=album.description;
+  const fb=card.querySelector('a[href*="facebook.com"]');
+  if(fb && album.facebook) fb.href=album.facebook;
+ }
+}
+
 async function renderAlbums(){
  const root=document.getElementById("firebaseAlbums");if(!root)return;
  const [albums,photos]=await Promise.all([readCollection("albums"),readCollection("photos")]);
+ syncStaticAlbumCards(albums,photos);
  if(!albums.length){root.innerHTML="<p>Még nincs Firebase-album feltöltve.</p>";return}
  root.innerHTML=albums.sort((a,b)=>String(b.date||"").localeCompare(String(a.date||""))).map(a=>`<article class="photo-album-card"><div class="photo-cover" style="background-image:url('${esc(a.coverUrl||photos.find(p=>p.albumId===a.id)?.url||"")}')"></div><div class="photo-album-body"><h3>${esc(a.name)}</h3><p>${esc(a.description||"")}</p><div class="album-actions"><button class="btn primary" data-open-fb-album="${a.id}">Webes galéria (${photos.filter(p=>p.albumId===a.id).length})</button>${a.facebook?`<a class="btn ghost" target="_blank" rel="noopener" href="${esc(a.facebook)}">Facebook album</a>`:""}</div></div></article>`).join("");
  root.querySelectorAll("[data-open-fb-album]").forEach(b=>b.onclick=()=>openAlbum(albums.find(a=>a.id===b.dataset.openFbAlbum),photos.filter(p=>p.albumId===b.dataset.openFbAlbum)));
