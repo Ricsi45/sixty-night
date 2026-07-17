@@ -2,7 +2,7 @@
 <html lang="hu">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sixty Night CMS V6.1</title>
+<title>Sixty Night CMS V6.3</title>
 <link rel="stylesheet" href="../assets/css/cms.css">
 </head>
 <body>
@@ -58,7 +58,7 @@
           <div class="stat"><strong>2</strong><span>Aftermovie</span></div>
           <div class="stat"><strong>20</strong><span>Fellépő</span></div>
         </div>
-        <button id="importExistingBtn" class="btn ghost">Meglévő tartalom újratöltése</button>
+        <div class="actions"><button id="importExistingBtn" class="btn ghost">Meglévő tartalom újratöltése</button><button id="cleanupDuplicatesBtn" class="btn danger">Duplikációk biztonságos tisztítása</button></div><p id="cleanupStatus" style="color:var(--muted);margin-top:12px"></p>
       </div>
     </div>
     <div class="panel"><div class="panel-head"><h2>Gyors műveletek</h2></div><div class="panel-body actions">
@@ -134,21 +134,26 @@
       <div class="panel"><div class="panel-head"><h2>Oldal létrehozása / szerkesztése</h2></div><div class="panel-body">
         <input type="hidden" id="pageId">
         <div class="grid">
+          <label>Oldal típusa<select id="pageType"><option value="custom">Új, külön oldal</option><option value="existing">Meglévő oldal szerkesztése</option></select></label>
+          <label>Meglévő oldal<select id="pageTargetPath"><option value="">Nem meglévő oldal</option><option value="index.html">Főoldal</option><option value="esemenyek.html">Események</option><option value="fellepok.html">Fellépők</option><option value="fotok.html">Fotók</option><option value="videotar.html">Videótár</option><option value="rolunk.html">Rólunk</option><option value="helyszin.html">Helyszín</option><option value="vip.html">VIP</option><option value="kapcsolat.html">Kapcsolat</option><option value="mulat-hatvan.html">Mulat Hatvan</option><option value="uv-cirkusz.html">UV Cirkusz 2.0</option><option value="holi-jungle.html">Holi Jungle</option></select></label>
           <label>Oldal címe<input id="pageTitle" placeholder="Például: GYIK"></label>
+          <label>Főcím<input id="pageHeroTitle" placeholder="Az oldalon látható nagy főcím"></label>
           <label>URL azonosító<input id="pageSlug" placeholder="gyik"></label>
           <label>Menü felirata<input id="pageMenuLabel" placeholder="GYIK"></label>
           <label>Menü sorrend<input type="number" id="pageOrder" value="100"></label>
           <label>Állapot<select id="pagePublished"><option value="true">Publikus</option><option value="false">Rejtett</option></select></label>
           <label>Menüben látható<select id="pageShowInMenu"><option value="true">Igen</option><option value="false">Nem</option></select></label>
+          <label>Meglévő oldal tartalma<select id="pageReplaceMain"><option value="false">Az eredeti oldal marad, a CMS-tartalom alul jelenik meg</option><option value="true">A teljes középső tartalom cseréje</option></select></label>
           <label class="full">Bevezető<textarea id="pageIntro" placeholder="Rövid bevezető szöveg"></textarea></label>
           <label class="full">Oldal tartalma<textarea id="pageContent" style="min-height:260px" placeholder="Ide írd az oldal teljes tartalmát. Egyszerű HTML is használható."></textarea></label>
           <label>Borítókép<input type="file" id="pageCover" accept="image/*"></label>
           <label>SEO cím<input id="pageSeoTitle"></label>
           <label class="full">SEO leírás<textarea id="pageSeoDescription"></textarea></label>
         </div>
+        <p style="color:var(--muted);line-height:1.6">Új oldalnál külön webcím készül. Meglévő oldal szerkesztésénél kiválaszthatod, hogy csak a főcím és a kiegészítő tartalom változzon, vagy a teljes középső oldalrészt a CMS kezelje.</p>
         <div class="actions"><button id="savePage" class="btn primary">Oldal mentése</button><button id="resetPage" class="btn ghost">Új űrlap</button><a id="previewPage" class="btn ghost" target="_blank" rel="noopener">Előnézet</a></div>
       </div></div>
-      <div class="panel" style="margin-top:18px"><div class="panel-head"><h2>Mentett oldalak</h2></div><div class="panel-body"><div id="pagesList" class="list"></div></div></div>
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><h2>Minden szerkeszthető oldal</h2></div><div class="panel-body"><div id="pagesList" class="list"></div></div></div>
     </section>
 
     <section id="settingsView" class="view hidden"><div class="panel"><div class="panel-head"><h2>Weboldal-beállítások</h2></div><div class="panel-body">
@@ -158,5 +163,5 @@
   </main>
 </div>
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="../assets/js/cms.js?v=6.1.0"></script>
+<script type="module" src="../assets/js/cms.js?v=6.3.0"></script>
 </body></html>
