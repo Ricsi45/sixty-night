@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sixty Night Firebase ellenőrzés</title>
+<style>
+body{font-family:Arial,sans-serif;background:#08080d;color:#fff;min-height:100vh;display:grid;place-items:center;margin:0;padding:20px}
+main{width:min(720px,100%);padding:28px;border:1px solid rgba(255,255,255,.15);border-radius:22px;background:#12121a}
+.ok{color:#57e69a}.bad{color:#ff7584}code{word-break:break-all;color:#9de7ff}
+</style>
+</head>
+<body><main>
+<h1>Firebase kapcsolat ellenőrzése</h1>
+<p id="status">Ellenőrzés folyamatban…</p>
+<pre id="details"></pre>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+import { firebaseConfig } from "./assets/js/firebase-config.js";
+const status=document.getElementById("status"), details=document.getElementById("details");
+try {
+  const app=initializeApp(firebaseConfig);
+  getAuth(app);
+  status.className="ok";
+  status.textContent="✅ A Firebase konfiguráció betöltődött.";
+  details.textContent="Projekt: "+firebaseConfig.projectId+"\nAuth domain: "+firebaseConfig.authDomain+"\nAPI-kulcs vége: "+firebaseConfig.apiKey.slice(-5);
+} catch(e) {
+  status.className="bad";
+  status.textContent="❌ Hiba történt.";
+  details.textContent=e.stack||e.message;
+}
+</script>
+</main></body></html>

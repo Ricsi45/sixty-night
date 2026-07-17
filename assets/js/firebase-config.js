@@ -1,6 +1,6 @@
 // Sixty Night Party Firebase configuration
 export const firebaseConfig = {
-  apiKey: "AIzaSyBM4Jcfg3CoJt_g6GeerEEWl37sb9_0jIs",
+  apiKey: "AIzaSyBM4Jcfg3CoJt_g6GeerEEWl37sb9_QjIs",
   authDomain: "sixty-night-party.firebaseapp.com",
   projectId: "sixty-night-party",
   storageBucket: "sixty-night-party.firebasestorage.app",

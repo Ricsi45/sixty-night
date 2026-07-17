@@ -1,7 +1,6 @@
-# Sixty Night Party CMS V1
+# Sixty Night CMS V2
 
-Firebase-alapú tartalomkezelő rendszer a Sixty Night Party weboldalhoz.
+Javított Firebase konfigurációval és cache-bustinggal.
 
+Tesztoldal: `/firebase-test.html`  
 Admin: `/admin.html`
-
-A telepítés előtt olvasd el a `CMS-BEALLITAS.txt` fájlt, és állítsd be a tulajdonosi Google e-mail-címet.

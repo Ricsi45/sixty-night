@@ -1,0 +1,39 @@
+SIXTY NIGHT CMS V2 – JAVÍTOTT VERZIÓ
+
+Kijavított hiba:
+Az előző csomag API-kulcsának utolsó része hibás volt:
+_0jIs helyett _QjIs
+
+Admin e-mail:
+csabanagy34@gmail.com
+
+TELEPÍTÉS
+
+1. Csomagold ki ezt a ZIP-et.
+
+2. A teljes tartalmát töltsd fel a GitHub repository gyökerébe,
+   felülírva a korábbi fájlokat.
+
+3. Commit üzenet:
+   Sixty Night CMS V2 fixed Firebase key
+
+4. Várj 1–3 percet.
+
+5. Először nyisd meg:
+   https://sixtynight.hu/firebase-test.html
+
+   Ezt kell látnod:
+   „A Firebase konfiguráció betöltődött.”
+
+6. Ezután nyisd meg:
+   https://sixtynight.hu/admin.html
+
+7. Ha a böngésző régi fájlt mutat:
+   Windows: Ctrl + F5
+   Telefonon: privát böngészőablakban nyisd meg.
+
+8. Ellenőrizd a Firebase Authentication Authorized domains listáját:
+   sixtynight.hu legyen hozzáadva.
+
+A Firestore és Storage szabályokat nem kell újra módosítani,
+ha a korábbi, csabanagy34@gmail.com e-mailt tartalmazó szabályokat már publikáltad.
