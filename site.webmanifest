@@ -1,0 +1,9 @@
+{
+  "name": "Sixty Night Party",
+  "short_name": "Sixty Night",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050508",
+  "theme_color": "#ff2cab",
+  "description": "Sixty Night Party – Az éjszaka a tiéd."
+}

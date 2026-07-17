@@ -1,0 +1,14 @@
+SIXTY NIGHT PARTY V14.1 – GITHUB WEBES FELTÖLTÉS
+
+Ez a verzió GitHub böngészős feltöltésre van optimalizálva.
+A főoldali háttérvideó HD felbontású, hang nélküli, és 25 MB alatti.
+
+1. Töröld a sikertelen feltöltési listából a hibás/nagy fájlt az X gombbal.
+2. Csomagold ki ezt a ZIP-et a számítógépeden.
+3. A kicsomagolt mappa teljes TARTALMÁT húzd a GitHub feltöltőmezőjére.
+4. Ellenőrizd, hogy az index.html, CNAME és assets mappa közvetlenül a repository gyökerébe kerül.
+5. Commit message: Sixty Night V14.1 website update
+6. Commit directly to the main branch → Commit changes.
+7. Várj 1–3 percet, majd frissítsd a https://sixtynight.hu oldalt Ctrl+F5-tel.
+
+FONTOS: A ZIP fájlt ne töltsd fel közvetlenül. Előbb ki kell csomagolni.

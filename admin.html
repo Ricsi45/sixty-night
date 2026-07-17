@@ -25,7 +25,7 @@ label{display:block;font-weight:700;margin:14px 0 7px}input,textarea,select{widt
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{padding:18px;border-radius:14px;border:1px solid var(--line);background:var(--panel);text-align:center}.stat strong{font-size:1.5rem;display:block}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line)}.grid,.stats{grid-template-columns:1fr}.main{padding:22px}.topbar{align-items:flex-start;flex-direction:column}}
 </style>
-</head>
+<link rel="canonical" href="https://sixtynight.hu/admin.html"><meta name="theme-color" content="#050508"><meta name="description" content="Sixty Night Party – prémium rendezvények, fellépők, fotók és videók Hatvanban. Az éjszaka a tiéd."><meta property="og:type" content="website"><meta property="og:url" content="https://sixtynight.hu/admin.html"><meta property="og:site_name" content="Sixty Night Party"><meta property="og:title" content="Sixty Night Party"><meta property="og:description" content="Az éjszaka a tiéd."><link rel="manifest" href="/site.webmanifest"></head>
 <body>
 <div class="layout">
 <aside class="sidebar">
@@ -246,5 +246,9 @@ $("addPhotoAlbum").onclick=()=>{
 window.deletePhotoAlbum=i=>{if(confirm("Biztosan törlöd az albumot?")){data.photos.splice(i,1);save()}};
 render();
 </script>
+
+<div style="position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;padding:12px 16px;border:1px solid rgba(255,255,255,.15);border-radius:14px;background:rgba(10,10,15,.92);backdrop-filter:blur(12px);color:white;text-align:center;font:600 14px Arial">
+Admin előnézet – a valódi, jelszóval védett mentéshez külön CMS/backend bekötése szükséges.
+</div>
 </body>
 </html>
