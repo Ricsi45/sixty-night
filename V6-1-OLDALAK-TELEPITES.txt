@@ -1,0 +1,15 @@
+SIXTY NIGHT CMS V6.1 – OLDALAK MODUL
+
+Ez a csomag a korábbi, működő V4 CMS-re épül. A Firebase Authentication konfigurációját és a Google-belépést nem módosítja.
+
+FELTÖLTÉS:
+1. A ZIP teljes tartalmát töltsd fel a GitHub repository gyökerébe.
+2. A meglévő fájlok felülírását engedélyezd.
+3. Firebase Console → Firestore Database → Rules.
+4. Másold be a firestore.rules tartalmát, majd Publish.
+5. Nyisd meg: https://sixtynight.hu/admin.html?v=610
+6. Ctrl + F5.
+
+HASZNÁLAT:
+Admin → Oldalak → cím, URL-azonosító, tartalom és beállítások → Oldal mentése.
+A publikus URL: https://sixtynight.hu/page.html?slug=AZONOSITO

@@ -1,12 +1,6 @@
-# Sixty Night Party – CMS V6
+# Sixty Night CMS V2
 
-Stabil publikus Firebase-szinkron és admin oldalszerkesztő.
+Javított Firebase konfigurációval és cache-bustinggal.
 
-Telepítés: lásd `CMS-V6-TELEPITES.txt`.
-
-Fő változások:
-- egyetlen publikus szinkronmodul (`assets/js/public-site.js`);
-- név szerinti, pontos kép- és tartalompárosítás;
-- kliensoldali duplikációszűrés;
-- adminban duplikációtisztítás;
-- új „Oldalak” menüpont egyedi és meglévő oldalak szerkesztéséhez.
+Tesztoldal: `/firebase-test.html`  
+Admin: `/admin.html`
