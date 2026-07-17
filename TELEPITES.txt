@@ -1,16 +1,10 @@
-FELLÉPŐKÉP-SZINKRON JAVÍTÁS
+SIXTY NIGHT V6.2.1 – ADMIN FELIRAT ELTÁVOLÍTÁSA
 
-Cseréld/feltöltsd ezt a két fájlt a GitHubon:
-- fellepok.html
-- assets/js/public-performer-images.js
+Ez egy minimális javítócsomag a működő V6.2 projekthez.
 
-Commit üzenet:
-Fix public performer image sync
+1. A ZIP tartalmát töltsd fel a GitHub repository gyökerébe.
+2. A meglévő HTML-fájlokat írd felül.
+3. Várj 1–3 percet, majd Ctrl + F5.
 
-Ezután várj 1–3 percet, majd nyisd meg:
-https://sixtynight.hu/fellepok.html?v=440
-
-Nyomj Ctrl+F5-öt.
-
-A javítás név alapján párosítja a Firebase performers gyűjteményét
-a nyilvános oldal meglévő fellépőkártyáihoz, és az imageUrl mezőt használja.
+A javítás csak a nyilvános oldalakon lévő „Admin előnézet” feliratot és linket távolítja el.
+Az admin továbbra is elérhető: https://sixtynight.hu/admin.html
