@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sixty Night Party – Admin</title>
+<style>
+:root{
+  --bg:#07070b;--panel:#12121a;--panel2:#1a1a25;--text:#fff;--muted:#b9b9c8;
+  --pink:#ff2ca8;--purple:#8258ff;--cyan:#27d9ff;--line:rgba(255,255,255,.11);
+}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0%,rgba(130,88,255,.18),transparent 30%),var(--bg);color:var(--text);font-family:Arial,sans-serif}
+button,input,textarea,select{font:inherit}.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{padding:24px;border-right:1px solid var(--line);background:rgba(9,9,14,.94);position:sticky;top:0;height:100vh}
+.logo{font-weight:900;font-size:1.2rem;margin-bottom:6px}.logo span{color:var(--pink)}.tag{color:var(--muted);font-size:.82rem;margin-bottom:28px}
+.navbtn{display:block;width:100%;text-align:left;padding:12px 14px;margin:7px 0;border-radius:12px;border:1px solid transparent;background:transparent;color:#ddd;font-weight:700;cursor:pointer}
+.navbtn.active,.navbtn:hover{background:rgba(255,255,255,.06);border-color:var(--line);color:white}
+.main{padding:34px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:28px}.topbar h1{margin:0;font-size:2rem}.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:0;border-radius:999px;padding:11px 17px;font-weight:800;cursor:pointer;color:white}.primary{background:linear-gradient(90deg,var(--pink),var(--purple))}.ghost{background:rgba(255,255,255,.07);border:1px solid var(--line)}
+.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}.card h2,.card h3{margin-top:0}
+label{display:block;font-weight:700;margin:14px 0 7px}input,textarea,select{width:100%;padding:12px 13px;border-radius:12px;border:1px solid var(--line);background:#0b0b11;color:white}textarea{min-height:110px;resize:vertical}
+.small{font-size:.82rem;color:var(--muted)}.list{display:grid;gap:12px}.item{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03)}
+.item strong{display:block}.item span{color:var(--muted);font-size:.82rem}.danger{background:#5b162b}.success{padding:10px 14px;border-radius:12px;background:rgba(39,217,255,.1);border:1px solid rgba(39,217,255,.35);display:none;margin-bottom:18px}
+.preview{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#09090f}.preview-head{padding:26px;background:linear-gradient(120deg,rgba(255,44,168,.22),rgba(130,88,255,.16))}.preview-head h2{font-size:2.4rem;margin:.2em 0}.preview-body{padding:20px}.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--pink);font-size:.72rem;font-weight:900}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{padding:18px;border-radius:14px;border:1px solid var(--line);background:var(--panel);text-align:center}.stat strong{font-size:1.5rem;display:block}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line)}.grid,.stats{grid-template-columns:1fr}.main{padding:22px}.topbar{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+  <div class="logo">SIXTY<span>NIGHT</span> ADMIN</div>
+  <div class="tag">Az éjszaka a tiéd.</div>
+  <button class="navbtn active" data-panel="dashboard">Áttekintés</button>
+  <button class="navbtn" data-panel="homepage">Főoldal</button>
+  <button class="navbtn" data-panel="events">Események</button>
+  <button class="navbtn" data-panel="artists">Fellépők</button>
+  <button class="navbtn" data-panel="sponsors">Szponzorok</button><button class="navbtn" data-panel="photos">Fotóalbumok</button>
+  <button class="navbtn" data-panel="settings">Beállítások</button>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div><h1>Adminfelület</h1><div class="small">Helyi prototípus – a mentés ebben a böngészőben marad.</div></div>
+    <div class="actions"><button class="btn ghost" id="exportBtn">Export JSON</button><button class="btn ghost" id="importBtn">Import JSON</button><button class="btn primary" id="saveBtn">Mentés</button></div>
+  </div>
+
+  <div class="success" id="success">A változtatások elmentve.</div>
+
+  <section class="panel active" id="dashboard">
+    <div class="stats">
+      <div class="stat"><strong id="eventCount">0</strong><span>Esemény</span></div>
+      <div class="stat"><strong id="artistCount">0</strong><span>Fellépő</span></div>
+      <div class="stat"><strong id="sponsorCount">0</strong><span>Partner</span></div>
+      <div class="stat"><strong id="photoCount">0</strong><span>Fotóalbum</span></div>
+    </div>
+    <div class="grid" style="margin-top:18px">
+      <div class="card"><h2>Gyors állapot</h2><p class="small">A prototípusban az adatokat a böngésző Local Storage tárolja. A végleges rendszerhez GitHub API, Netlify CMS vagy más backend szükséges.</p></div>
+      <div class="card"><h2>Következő esemény</h2><div id="dashboardEvent"></div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="homepage">
+    <div class="grid">
+      <div class="card">
+        <h2>Főoldali szövegek</h2>
+        <label>Márkanév</label><input id="brandName">
+        <label>Szlogen</label><input id="tagline">
+        <label>Főoldali leírás</label><textarea id="heroText"></textarea>
+        <label>Kiemelt gomb szövege</label><input id="heroButton">
+      </div>
+      <div class="preview">
+        <div class="preview-head"><span class="badge">ELŐNÉZET</span><h2 id="previewBrand"></h2><h3 id="previewTagline"></h3></div>
+        <div class="preview-body"><p id="previewText"></p><button class="btn primary" id="previewButton"></button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="events">
+    <div class="grid">
+      <div class="card">
+        <h2>Új esemény / szerkesztés</h2>
+        <input type="hidden" id="eventEditIndex" value="-1">
+        <label>Esemény neve</label><input id="eventName">
+        <label>Dátum</label><input type="date" id="eventDate">
+        <label>Helyszín</label><input id="eventVenue">
+        <label>Elővételes jegyár</label><input id="eventPresale">
+        <label>Helyszíni jegyár</label><input id="eventDoor">
+        <label>Fellépők (vesszővel)</label><textarea id="eventArtists"></textarea>
+        <label>Leírás</label><textarea id="eventDescription"></textarea>
+        <button class="btn primary" id="addEvent">Esemény mentése</button>
+      </div>
+      <div class="card"><h2>Eseménylista</h2><div class="list" id="eventList"></div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="artists">
+    <div class="grid">
+      <div class="card">
+        <h2>Fellépő hozzáadása</h2>
+        <label>Név</label><input id="artistName">
+        <label>Szerepkör / esemény</label><input id="artistRole">
+        <label>Bemutatkozás</label><textarea id="artistBio"></textarea>
+        <button class="btn primary" id="addArtist">Fellépő hozzáadása</button>
+      </div>
+      <div class="card"><h2>Fellépők</h2><div class="list" id="artistList"></div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="sponsors">
+    <div class="grid">
+      <div class="card">
+        <h2>Partner hozzáadása</h2>
+        <label>Név</label><input id="sponsorName">
+        <label>Kategória</label><select id="sponsorType"><option>Kiemelt partner</option><option>Italpartner</option><option>Technikai partner</option><option>Médiapartner</option></select>
+        <label>Weboldal vagy közösségi link</label><input id="sponsorUrl">
+        <button class="btn primary" id="addSponsor">Partner hozzáadása</button>
+      </div>
+      <div class="card"><h2>Partnerek</h2><div class="list" id="sponsorList"></div></div>
+    </div>
+  </section>
+
+  
+<section class="panel" id="photos">
+  <div class="grid">
+    <div class="card">
+      <h2>Fotóalbum létrehozása</h2>
+      <label>Album neve</label><input id="photoAlbumName">
+      <label>Dátum</label><input type="date" id="photoAlbumDate">
+      <label>Leírás</label><textarea id="photoAlbumDescription"></textarea><label>Facebook album link</label><input id="photoAlbumFacebook" placeholder="https://www.facebook.com/..."><label>Borítókép</label><input type="file" id="photoCoverFile" accept="image/*">
+      <label>Képek kiválasztása</label><input type="file" id="photoFiles" accept="image/*" multiple>
+      <p class="small">A prototípus a képek adatait a böngészőben tárolja. A végleges CMS-ben valódi feltöltés lesz.</p>
+      <button class="btn primary" id="addPhotoAlbum">Album hozzáadása</button>
+    </div>
+    <div class="card"><h2>Fotóalbumok</h2><div class="list" id="photoAlbumList"></div></div>
+  </div>
+</section>
+<section class="panel" id="settings">
+    <div class="grid">
+      <div class="card">
+        <h2>Kapcsolati beállítások</h2>
+        <label>E-mail</label><input id="contactEmail">
+        <label>Google Maps link</label><input id="mapsUrl">
+        <label>Facebook link</label><input id="facebookUrl">
+        <label>Instagram link</label><input id="instagramUrl">
+      </div>
+      <div class="card">
+        <h2>Fontos</h2>
+        <p class="small">Ez a változat nem írja át automatikusan a GitHubon lévő HTML fájlokat. A mentett adatokat exportálhatod JSON-ba, és ebből a következő fejlesztésben már automatikus weboldal-frissítés készíthető.</p>
+        <button class="btn danger" id="resetBtn">Minden adat visszaállítása</button>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+<input type="file" id="fileInput" accept=".json" hidden>
+<script>
+const defaults={
+  homepage:{brandName:"Sixty Night Party",tagline:"Az éjszaka a tiéd.",heroText:"Látvány. Zene. Élmény. Egy helyen.",heroButton:"Következő esemény"},
+  settings:{contactEmail:"sixtynightpartyproduction@gmail.com",mapsUrl:"https://maps.app.goo.gl/rPdR8HRAXuW4keMn8?g_st=ic",facebookUrl:"",instagramUrl:""},
+  events:[
+    {name:"Mulat Hatvan",date:"2026-09-12",venue:"Sixty Night Party Park",presale:"2500 Ft",door:"3500 Ft",artists:["Rostás Szabika","Döndi Duo","Szajkó Nándor"],description:"Nagyszabású, sátoros mulatós este."},
+    {name:"UV Cirkusz 2.0",date:"2026-05-23",venue:"Sixty Night Party Park",presale:"",door:"",artists:["Szecsei","Katapult DJ","Bréda Bia","Glenn"],description:"UV-fények és cirkuszi látványvilág."},
+    {name:"Holi Jungle",date:"2026-05-24",venue:"Sixty Night Party Park",presale:"",door:"",artists:["Czaga","Polevaya","Marcelfitt","DemeterP"],description:"Színek, holi por és dzsungelhangulat."}
+  ],
+  artists:[
+    {name:"Glenn",role:"Rezidens DJ",bio:"Modern mainstream és house."},
+    {name:"DemeterP",role:"Rezidens DJ",bio:"Energikus szettek és erőteljes dropok."},
+    {name:"VZS",role:"Korábbi vendégfellépő",bio:"A Sixty Night egyik korábbi vendégfellépője."}
+  ],
+  photos:[
+    {name:"UV Cirkusz 2.0",date:"2026-05-23",description:"UV-fények és cirkuszi hangulat.",cover:"uv2.0.jpg",facebook:"https://www.facebook.com/share/1YKSXxd4ZW/?",files:[]},
+    {name:"Holi Jungle",date:"2026-05-24",description:"Holi por és dzsungelhangulat.",cover:"holi.jpg",facebook:"https://www.facebook.com/share/1Bp29FEC5m/?mibextid=wwXIfr",files:[]},
+    {name:"Wonderland Night",date:"2025-06-14",description:"Wonderland eseményfotók.",cover:"woner.jpg",facebook:"https://www.facebook.com/share/1AtQDN2Pa6/?",files:[]},
+    {name:"GóólParty & Jäger Night",date:"2025-07-12",description:"Családi nap és esti buli.",cover:"jager.jpg",facebook:"https://www.facebook.com/share/1DgzWu5rLQ/?",files:[]}
+  ],
+  sponsors:[
+    {name:"Jägermeister",type:"Kiemelt partner",url:""},
+    {name:"Russian Standard",type:"Kiemelt partner",url:""},
+    {name:"Romanoff",type:"Kiemelt partner",url:""},
+    {name:"Sir Edward's",type:"Kiemelt partner",url:""}
+  ]
+};
+let data=JSON.parse(localStorage.getItem("sixtyNightAdmin")||"null")||structuredClone(defaults);
+
+const $=id=>document.getElementById(id);
+function save(show=true){localStorage.setItem("sixtyNightAdmin",JSON.stringify(data));if(show){$("success").style.display="block";setTimeout(()=>$("success").style.display="none",1800)}render();}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));}
+
+document.querySelectorAll(".navbtn").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".navbtn,.panel").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");$(b.dataset.panel).classList.add("active");
+});
+
+function render(){
+  $("eventCount").textContent=data.events.length;$("artistCount").textContent=data.artists.length;$("sponsorCount").textContent=data.sponsors.length;$("photoCount").textContent=(data.photos||[]).length;
+  const next=data.events[0];$("dashboardEvent").innerHTML=next?`<strong>${esc(next.name)}</strong><p>${esc(next.date)} • ${esc(next.venue)}</p>`:"Nincs esemény";
+  Object.entries(data.homepage).forEach(([k,v])=>{if($(k))$(k).value=v});
+  Object.entries(data.settings).forEach(([k,v])=>{if($(k))$(k).value=v});
+  $("previewBrand").textContent=data.homepage.brandName;$("previewTagline").textContent=data.homepage.tagline;$("previewText").textContent=data.homepage.heroText;$("previewButton").textContent=data.homepage.heroButton;
+  $("eventList").innerHTML=data.events.map((e,i)=>`<div class="item"><div><strong>${esc(e.name)}</strong><span>${esc(e.date)} • ${esc(e.venue)}<br>${esc(e.artists.join(", "))}</span></div><div><button class="btn ghost" onclick="editEvent(${i})">Szerkesztés</button> <button class="btn danger" onclick="deleteEvent(${i})">Törlés</button></div></div>`).join("");
+  $("artistList").innerHTML=data.artists.map((a,i)=>`<div class="item"><div><strong>${esc(a.name)}</strong><span>${esc(a.role)}</span></div><button class="btn danger" onclick="deleteArtist(${i})">Törlés</button></div>`).join("");
+  $("photoAlbumList").innerHTML=(data.photos||[]).map((a,i)=>`<div class="item"><div><strong>${esc(a.name)}</strong><span>${esc(a.date)} • ${(a.files||[]).length} kép<br>${a.facebook ? "Facebook link beállítva" : "Nincs Facebook link"}</span></div><button class="btn danger" onclick="deletePhotoAlbum(${i})">Törlés</button></div>`).join("");
+  $("sponsorList").innerHTML=data.sponsors.map((s,i)=>`<div class="item"><div><strong>${esc(s.name)}</strong><span>${esc(s.type)}</span></div><button class="btn danger" onclick="deleteSponsor(${i})">Törlés</button></div>`).join("");
+}
+["brandName","tagline","heroText","heroButton"].forEach(id=>$(id).oninput=()=>{data.homepage[id]=$(id).value;render();});
+["contactEmail","mapsUrl","facebookUrl","instagramUrl"].forEach(id=>$(id).oninput=()=>data.settings[id]=$(id).value);
+
+$("addEvent").onclick=()=>{
+ const e={name:$("eventName").value.trim(),date:$("eventDate").value,venue:$("eventVenue").value.trim(),presale:$("eventPresale").value.trim(),door:$("eventDoor").value.trim(),artists:$("eventArtists").value.split(",").map(x=>x.trim()).filter(Boolean),description:$("eventDescription").value.trim()};
+ if(!e.name)return alert("Add meg az esemény nevét.");
+ const idx=+$("eventEditIndex").value;if(idx>=0)data.events[idx]=e;else data.events.push(e);
+ ["eventName","eventDate","eventVenue","eventPresale","eventDoor","eventArtists","eventDescription"].forEach(id=>$(id).value="");$("eventEditIndex").value="-1";save();
+};
+window.editEvent=i=>{const e=data.events[i];$("eventEditIndex").value=i;$("eventName").value=e.name;$("eventDate").value=e.date;$("eventVenue").value=e.venue;$("eventPresale").value=e.presale;$("eventDoor").value=e.door;$("eventArtists").value=e.artists.join(", ");$("eventDescription").value=e.description;document.querySelector('[data-panel="events"]').click();};
+window.deleteEvent=i=>{if(confirm("Biztosan törlöd?")){data.events.splice(i,1);save()}};
+$("addArtist").onclick=()=>{const a={name:$("artistName").value.trim(),role:$("artistRole").value.trim(),bio:$("artistBio").value.trim()};if(!a.name)return alert("Add meg a nevet.");data.artists.push(a);["artistName","artistRole","artistBio"].forEach(id=>$(id).value="");save();};
+window.deleteArtist=i=>{data.artists.splice(i,1);save()};
+$("addSponsor").onclick=()=>{const s={name:$("sponsorName").value.trim(),type:$("sponsorType").value,url:$("sponsorUrl").value.trim()};if(!s.name)return alert("Add meg a partner nevét.");data.sponsors.push(s);["sponsorName","sponsorUrl"].forEach(id=>$(id).value="");save();};
+window.deleteSponsor=i=>{data.sponsors.splice(i,1);save()};
+$("saveBtn").onclick=()=>save();
+$("resetBtn").onclick=()=>{if(confirm("Minden adat visszaáll az alapértelmezettre.")){data=structuredClone(defaults);save()}};
+$("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="sixty-night-content.json";a.click();URL.revokeObjectURL(a.href)};
+$("importBtn").onclick=()=>$("fileInput").click();
+$("fileInput").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{data=JSON.parse(r.result);save()}catch{alert("Hibás JSON fájl.")}};r.readAsText(f)};
+
+$("addPhotoAlbum").onclick=()=>{
+ const files=[...$("photoFiles").files].map(f=>({name:f.name,type:f.type,size:f.size}));
+ const coverFile=$("photoCoverFile").files[0];
+ const album={
+   name:$("photoAlbumName").value.trim(),
+   date:$("photoAlbumDate").value,
+   description:$("photoAlbumDescription").value.trim(),
+   facebook:$("photoAlbumFacebook").value.trim(),
+   cover:coverFile?coverFile.name:"",
+   files
+ };
+ if(!album.name)return alert("Add meg az album nevét.");
+ data.photos=data.photos||[];
+ data.photos.push(album);
+ ["photoAlbumName","photoAlbumDate","photoAlbumDescription","photoAlbumFacebook"].forEach(id=>$(id).value="");
+ $("photoFiles").value="";
+ $("photoCoverFile").value="";
+ save();
+};
+window.deletePhotoAlbum=i=>{if(confirm("Biztosan törlöd az albumot?")){data.photos.splice(i,1);save()}};
+render();
+</script>
+</body>
+</html>
