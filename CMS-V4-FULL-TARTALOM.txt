@@ -1,0 +1,35 @@
+SIXTY NIGHT CMS V4 – TELJES TARTALOM
+
+Ez a verzió akkor is megjeleníti az adminban a teljes meglévő weboldaltartalmat,
+ha a Firebase automatikus import valamiért nem fut le.
+
+AZONNAL LÁTHATÓ:
+- 5 esemény
+- 5 fotóalbum
+- Facebook albumlinkek
+- 2 aftermovie / videó
+- Glenn és DemeterP
+- a korábbi és bejelentett fellépők
+- partnerek
+- weboldal alapbeállítások
+
+MŰKÖDÉS:
+- A régi elemek azonnal látszanak.
+- Szerkesztéskor Firebase-be mentődnek.
+- Törléskor elrejtésre kerülnek, ezért nem jelennek meg újra.
+- Új elemek ugyanúgy létrehozhatók.
+- Feltöltött képek Firebase Storage-ba kerülnek.
+
+TELEPÍTÉS:
+1. Csomagold ki.
+2. A teljes tartalmat töltsd fel a GitHub repository gyökerébe.
+3. Commit:
+   Sixty Night CMS V4 full content
+4. Várj 1–3 percet.
+5. Nyisd meg:
+   https://sixtynight.hu/admin/?v=400
+6. Nyomj Ctrl+F5-öt, ha régi verzió látszik.
+
+FONTOS:
+A Facebook albumok belső képei nem másolhatók át automatikusan.
+Az albumok és linkjeik látszanak; a saját webes galéria képei az adminból tölthetők fel.

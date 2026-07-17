@@ -46,11 +46,10 @@
         <div class="stat"><strong id="countPhotos">0</strong><span>Fotó</span></div>
       </div>
       <div class="panel" style="margin-bottom:18px">
-      <div class="panel-head"><h2>Már meglévő weboldaltartalom</h2></div>
+      <div class="panel-head"><h2>Teljes jelenlegi weboldaltartalom</h2></div>
       <div class="panel-body">
         <p style="color:var(--muted);line-height:1.7">
-          A CMS automatikusan betölti a korábbi eseményeket, fotóalbumokat, aftermovie-kat,
-          fellépőket és partnereket. Ezek ezután a saját menüpontjukban szerkeszthetők.
+          A korábbi események, albumok, videók, fellépők és partnerek akkor is látszanak, ha a Firebase-import nem fut le. Bármelyik elem szerkesztésekor az adat automatikusan Firebase-be mentődik.
         </p>
         <div class="stats" style="margin:16px 0">
           <div class="stat"><strong>5</strong><span>Esemény</span></div>
@@ -137,5 +136,5 @@
   </main>
 </div>
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="../assets/js/cms.js?v=3.2.0"></script>
+<script type="module" src="../assets/js/cms.js?v=4.0.0"></script>
 </body></html>
