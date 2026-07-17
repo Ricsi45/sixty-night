@@ -1,10 +1,10 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 import { getFirestore, collection, doc, addDoc, setDoc, updateDoc, deleteDoc, getDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
-import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js?v=5.0.0";
-import { LEGACY_CONTENT } from "./legacy-content.js?v=5.0.0";
+import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js?v=4.0.0";
+import { LEGACY_CONTENT } from "./legacy-content.js?v=4.0.0";
 
 let app, auth, db, storage;
 try {
@@ -12,14 +12,6 @@ try {
   auth = getAuth(app);
   db = getFirestore(app);
   storage = getStorage(app);
-  await setPersistence(auth, browserLocalPersistence);
-  getRedirectResult(auth).catch((error) => {
-    console.error("Google redirect hiba:", error);
-    document.addEventListener("DOMContentLoaded", () => {
-      const box = document.getElementById("loginError");
-      if (box) box.textContent = "Google belépési hiba: " + (error?.message || error);
-    });
-  });
 } catch (error) {
   document.addEventListener("DOMContentLoaded", () => {
     const errorBox = document.getElementById("loginError");
@@ -36,49 +28,18 @@ const isAdmin=u=>u && u.email && u.email.toLowerCase()===ADMIN_EMAIL.toLowerCase
 
 $("loginBtn").onclick=async()=>{
   $("loginError").textContent="";
-  const btn=$("loginBtn");
-  btn.disabled=true;
-  btn.textContent="Bejelentkezés…";
-  const provider=new GoogleAuthProvider();
-  provider.setCustomParameters({prompt:"select_account"});
   try {
-    await signInWithPopup(auth,provider);
+    await signInWithPopup(auth,new GoogleAuthProvider());
   } catch(e) {
-    console.error("Popup login hiba:", e);
-    const fallbackCodes=[
-      "auth/popup-blocked",
-      "auth/popup-closed-by-user",
-      "auth/cancelled-popup-request",
-      "auth/operation-not-supported-in-this-environment",
-      "auth/internal-error"
-    ];
-    if (fallbackCodes.includes(e.code)) {
-      $("loginError").textContent="Átirányításos belépés indul…";
-      await signInWithRedirect(auth,provider);
-      return;
-    }
     const messages={
-      "auth/unauthorized-domain":"A sixtynight.hu nincs engedélyezve a Firebase Authorized domains listájában.",
-      "auth/api-key-not-valid.-please-pass-a-valid-api-key.":"A Firebase API-kulcs hibás vagy még nem aktiválódott.",
-      "auth/network-request-failed":"Hálózati hiba történt. Ellenőrizd az internetkapcsolatot.",
-      "auth/invalid-api-key":"Érvénytelen Firebase API-kulcs."
+      "auth/popup-blocked":"A böngésző blokkolta a bejelentkezési ablakot. Engedélyezd a felugró ablakokat.",
+      "auth/popup-closed-by-user":"A bejelentkezési ablak bezárult.",
+      "auth/unauthorized-domain":"A sixtynight.hu még nincs engedélyezve a Firebase Authorized domains listájában.",
+      "auth/api-key-not-valid.-please-pass-a-valid-api-key.":"A Firebase API-kulcs hibás."
     };
     $("loginError").textContent=messages[e.code]||("Firebase: "+(e.message||e.code));
-  } finally {
-    btn.disabled=false;
-    btn.textContent="Belépés Google-fiókkal";
   }
 };
-const redirectLoginBtn = document.getElementById("redirectLoginBtn");
-if (redirectLoginBtn) {
-  redirectLoginBtn.onclick = async () => {
-    $("loginError").textContent="Átirányítás a Google bejelentkezéshez…";
-    const provider=new GoogleAuthProvider();
-    provider.setCustomParameters({prompt:"select_account"});
-    await signInWithRedirect(auth,provider);
-  };
-}
-
 $("logoutBtn").onclick=()=>signOut(auth);
 
 onAuthStateChanged(auth,async user=>{
