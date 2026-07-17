@@ -3,7 +3,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/fireba
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 import { getFirestore, collection, doc, addDoc, setDoc, updateDoc, deleteDoc, getDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
-import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js?v=3.0.0";
+import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js?v=3.1.0";
+import { LEGACY_CONTENT } from "./legacy-content.js?v=3.2.0";
 
 let app, auth, db, storage;
 try {
@@ -46,6 +47,8 @@ onAuthStateChanged(auth,async user=>{
  if(!isAdmin(user)){await signOut(auth);$("loginError").textContent=`Ez a fiók nem admin: ${user.email}. Állítsd be az ADMIN_EMAIL értékét.`;return}
  $("loginView").classList.add("hidden");$("appView").classList.remove("hidden");
  $("userName").textContent=user.displayName||user.email;$("userPhoto").src=user.photoURL||"";
+ const imported = await importExistingWebsiteContent(false);
+ if (imported) toast("A meglévő weboldaltartalmak bekerültek az adminba.");
  await refreshAll();
 });
 
@@ -53,6 +56,23 @@ const views=["dashboard","events","performers","albums","videos","sponsors","tic
 function showView(v){views.forEach(x=>$(`${x}View`).classList.toggle("hidden",x!==v));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===v));$("viewTitle").textContent=document.querySelector(`#nav button[data-view="${v}"]`)?.textContent.replace(/^.. /,"")||v}
 document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>showView(b.dataset.view));
 document.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>showView(b.dataset.jump));
+const importExistingBtn = document.getElementById("importExistingBtn");
+if (importExistingBtn) {
+  importExistingBtn.onclick = async () => {
+    if (!confirm("Újra betöltsem a weboldal alap tartalmait? A meglévő módosításokat az azonos elemeknél felülírhatja.")) return;
+    importExistingBtn.disabled = true;
+    try {
+      await importExistingWebsiteContent(true);
+      await refreshAll();
+      toast("A meglévő tartalmak újra betöltve.");
+    } catch (e) {
+      toast(e.message || String(e), "error");
+    } finally {
+      importExistingBtn.disabled = false;
+    }
+  };
+}
+
 
 async function uploadImage(file,path,max=1800,quality=.84){
  if(!file)return "";
@@ -66,6 +86,40 @@ async function uploadImage(file,path,max=1800,quality=.84){
 async function removeStored(path){if(path)try{await deleteObject(ref(storage,path))}catch{}}
 async function docs(name,sort="createdAt"){const snap=await getDocs(collection(db,name));return snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(b[sort]||"").localeCompare(String(a[sort]||"")))}
 const thumb=x=>x||"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120'%3E%3Crect width='100%25' height='100%25' fill='%23222'/%3E%3C/svg%3E";
+
+
+async function seedCollection(collectionName, items) {
+  for (const item of items) {
+    const { id, ...data } = item;
+    await setDoc(doc(db, collectionName, id), {
+      ...data,
+      importedFromWebsite: true,
+      createdAt: data.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+  }
+}
+
+async function importExistingWebsiteContent(force = false) {
+  const systemRef = doc(db, "settings", "system");
+  const systemSnap = await getDoc(systemRef);
+  const currentVersion = systemSnap.exists() ? Number(systemSnap.data().legacySeedVersion || 0) : 0;
+
+  if (!force && currentVersion >= 1) return false;
+
+  await seedCollection("events", LEGACY_CONTENT.events);
+  await seedCollection("albums", LEGACY_CONTENT.albums);
+  await seedCollection("videos", LEGACY_CONTENT.videos);
+  await seedCollection("performers", LEGACY_CONTENT.performers);
+  await seedCollection("sponsors", LEGACY_CONTENT.sponsors);
+  await setDoc(doc(db, "settings", "site"), LEGACY_CONTENT.settings, { merge: true });
+  await setDoc(systemRef, {
+    legacySeedVersion: 1,
+    legacyImportedAt: new Date().toISOString()
+  }, { merge: true });
+
+  return true;
+}
 
 async function refreshAll(){await Promise.all([loadEvents(),loadPerformers(),loadAlbums(),loadVideos(),loadSponsors(),loadTickets(),loadSettings()]);updateStats()}
 function updateStats(){$("countEvents").textContent=state.events.length;$("countPerformers").textContent=state.performers.length;$("countAlbums").textContent=state.albums.length;$("countPhotos").textContent=state.photos.length}

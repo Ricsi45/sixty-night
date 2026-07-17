@@ -1,0 +1,33 @@
+SIXTY NIGHT CMS V3.2 – MEGLÉVŐ TARTALMAK
+
+ÚJDONSÁG
+Az admin első belépéskor automatikusan felveszi a Firebase-be:
+
+- UV Cirkusz 2.0
+- Holi Jungle
+- GóólParty & Jäger Night
+- Wonderland Night
+- Mulat Hatvan
+- 5 fotóalbum és a hozzájuk tartozó Facebook-linkek
+- UV Cirkusz és Holi Jungle aftermovie
+- Glenn, DemeterP és az eddigi fellépők
+- a jelenlegi kiemelt partnerek
+- alap weboldal-beállítások
+
+A betöltés egyszer történik meg, ezért nem készít duplikációkat.
+A Dashboardon külön gombbal később újra betölthető.
+
+TELEPÍTÉS
+1. Csomagold ki a ZIP-et.
+2. Töltsd fel a teljes tartalmát a GitHub repository gyökerébe.
+3. Commit:
+   Sixty Night CMS V3.2 existing content
+4. Várj 1–3 percet.
+5. Nyisd meg:
+   https://sixtynight.hu/admin/?v=320
+6. Jelentkezz be.
+7. Az első belépés után az Események, Fellépők, Albumok, Videók és Szponzorok menüben megjelennek a régi adatok.
+
+MEGJEGYZÉS
+A Facebook-albumok képei nem másolhatók automatikusan a Firebase Storage-ba.
+Az albumok és Facebook-linkek bekerülnek; a saját webes galériába a képeket az adminból töltheted fel.

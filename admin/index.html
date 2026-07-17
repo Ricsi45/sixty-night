@@ -45,7 +45,23 @@
         <div class="stat"><strong id="countAlbums">0</strong><span>Album</span></div>
         <div class="stat"><strong id="countPhotos">0</strong><span>Fotó</span></div>
       </div>
-      <div class="panel"><div class="panel-head"><h2>Gyors műveletek</h2></div><div class="panel-body actions">
+      <div class="panel" style="margin-bottom:18px">
+      <div class="panel-head"><h2>Már meglévő weboldaltartalom</h2></div>
+      <div class="panel-body">
+        <p style="color:var(--muted);line-height:1.7">
+          A CMS automatikusan betölti a korábbi eseményeket, fotóalbumokat, aftermovie-kat,
+          fellépőket és partnereket. Ezek ezután a saját menüpontjukban szerkeszthetők.
+        </p>
+        <div class="stats" style="margin:16px 0">
+          <div class="stat"><strong>5</strong><span>Esemény</span></div>
+          <div class="stat"><strong>5</strong><span>Fotóalbum</span></div>
+          <div class="stat"><strong>2</strong><span>Aftermovie</span></div>
+          <div class="stat"><strong>20</strong><span>Fellépő</span></div>
+        </div>
+        <button id="importExistingBtn" class="btn ghost">Meglévő tartalom újratöltése</button>
+      </div>
+    </div>
+    <div class="panel"><div class="panel-head"><h2>Gyors műveletek</h2></div><div class="panel-body actions">
         <button class="btn primary" data-jump="events">Új esemény</button>
         <button class="btn primary" data-jump="albums">Új album</button>
         <button class="btn ghost" data-jump="performers">Új fellépő</button>
@@ -121,5 +137,5 @@
   </main>
 </div>
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="../assets/js/cms.js?v=3.0.0"></script>
+<script type="module" src="../assets/js/cms.js?v=3.2.0"></script>
 </body></html>

@@ -1,7 +1,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
-import { firebaseConfig } from "./firebase-config.js?v=3.0.0";
+import { firebaseConfig } from "./firebase-config.js?v=3.2.0";
 const app=initializeApp(firebaseConfig),db=getFirestore(app);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 async function readCollection(name){const s=await getDocs(collection(db,name));return s.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x.published!==false)}
