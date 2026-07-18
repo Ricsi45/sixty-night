@@ -2,8 +2,8 @@
 <html lang="hu">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sixty Night CMS V6.1</title>
-<link rel="stylesheet" href="assets/css/cms.css">
+<title>Sixty Night CMS V6.6</title>
+<link rel="stylesheet" href="assets/css/cms-v6-6.css?v=6.6.0">
 </head>
 <body>
 <section id="loginView" class="login">
@@ -21,6 +21,7 @@
     <div class="brand">SIXTY NIGHT <span>CMS</span></div>
     <nav class="nav" id="nav">
       <button data-view="dashboard" class="active">🏠 Dashboard</button>
+      <button data-view="homepage">✨ Főoldal</button>
       <button data-view="events">📅 Események</button>
       <button data-view="performers">🎤 Fellépők</button>
       <button data-view="albums">📸 Albumok</button>
@@ -66,6 +67,80 @@
         <button class="btn primary" data-jump="albums">Új album</button>
         <button class="btn ghost" data-jump="performers">Új fellépő</button>
       </div></div>
+    </section>
+
+
+    <section id="homepageView" class="view hidden">
+      <div class="panel"><div class="panel-head"><div><h2>Főoldal-szerkesztő</h2><p class="cms-help">A piszkozat nem jelenik meg a látogatóknak. A főoldal csak a <strong>Közzététel</strong> gomb után változik meg.</p></div><span id="homepagePublishStatus" class="cms-status">Nincs betöltve</span></div><div class="panel-body">
+        <div class="grid">
+          <label>Felső kis felirat<input id="homepageEyebrow" placeholder="SIXTY NIGHT PARTY • HATVAN"></label>
+          <label>Főcím<input id="homepageHeroTitle" placeholder="SIXTY NIGHT PARTY"></label>
+          <label>Kiemelt címsor<input id="homepageHeroAccent" placeholder="AZ ÉJSZAKA A TIÉD."></label>
+          <label>Elsődleges gomb felirata<input id="homepagePrimaryText" placeholder="Esemény részletei"></label>
+          <label class="full">Bevezető szöveg<textarea id="homepageHeroLead" placeholder="Látvány. Zene. Élmény. Egy helyen."></textarea></label>
+          <label>Elsődleges gomb linkje<input id="homepagePrimaryUrl" placeholder="#event vagy https://..."></label>
+          <label>Másodlagos gomb felirata<input id="homepageSecondaryText" placeholder="Korábbi események"></label>
+          <label class="full">Másodlagos gomb linkje<input id="homepageSecondaryUrl" placeholder="esemenyek.html"></label>
+        </div>
+      </div></div>
+
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Főoldali háttér</h2><p class="cms-help">A „Meglévő váltakozó képek” mód változatlanul hagyja a jelenlegi főoldali hátteret.</p></div></div><div class="panel-body">
+        <div class="grid">
+          <label>Háttér típusa<select id="homepageMediaMode"><option value="slider">Meglévő váltakozó képek</option><option value="image">Egyedi kép</option><option value="video">Videó</option></select></label>
+          <label>Kép pozíciója<select id="homepageBackgroundPosition"><option value="center">Középen</option><option value="center top">Felül</option><option value="center bottom">Alul</option><option value="left center">Balra</option><option value="right center">Jobbra</option></select></label>
+          <label>Asztali háttérkép<input type="file" id="homepageDesktopImage" accept="image/*"><span class="cms-file-note">Ajánlott: 1920×1080 vagy nagyobb</span></label>
+          <label>Mobilos háttérkép<input type="file" id="homepageMobileImage" accept="image/*"><span class="cms-file-note">Ajánlott: 1080×1350 vagy 1080×1920</span></label>
+          <label class="full">Videó URL<input id="homepageVideoUrl" placeholder="Firebase Storage vagy közvetlen MP4 link"></label>
+          <label>Videófájl feltöltése<input type="file" id="homepageVideoFile" accept="video/mp4,video/webm"><span class="cms-file-note">Legfeljebb 19 MB (a jelenlegi Firebase-szabály szerint)</span></label>
+          <label>Videó poszterkép<input type="file" id="homepageVideoPoster" accept="image/*"></label>
+          <label class="cms-check"><input type="checkbox" id="homepageRemoveDesktop"> Jelenlegi asztali kép eltávolítása</label>
+          <label class="cms-check"><input type="checkbox" id="homepageRemoveMobile"> Jelenlegi mobilkép eltávolítása</label>
+          <label class="cms-check"><input type="checkbox" id="homepageRemoveVideo"> Jelenlegi videó eltávolítása</label>
+          <label class="cms-check"><input type="checkbox" id="homepageRemovePoster"> Jelenlegi poszter eltávolítása</label>
+        </div>
+        <div class="cms-media-preview">
+          <div><span>Asztali kép</span><img id="homepageDesktopPreview" alt="Asztali háttér előnézete"></div>
+          <div><span>Mobilkép</span><img id="homepageMobilePreview" alt="Mobil háttér előnézete"></div>
+          <div><span>Eseménykép</span><img id="homepageEventPreview" alt="Eseménykép előnézete"></div>
+        </div>
+        <div id="homepageVideoCurrent" class="cms-current-link"></div>
+      </div></div>
+
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Kiemelt esemény és visszaszámláló</h2><p class="cms-help">Átveheted egy mentett esemény adatait, majd külön finomíthatod a főoldali megjelenést.</p></div></div><div class="panel-body">
+        <div class="grid">
+          <label>Mentett esemény<select id="homepageEventSource"><option value="">Kézi kitöltés</option></select></label>
+          <label><span>&nbsp;</span><button type="button" id="homepageCopyEvent" class="btn ghost" style="width:100%">Esemény adatainak átvétele</button></label>
+          <label>Kiemelt esemény látható<select id="homepageEventEnabled"><option value="true">Igen</option><option value="false">Nem</option></select></label>
+          <label>Jelvény felirata<input id="homepageEventBadge" placeholder="KÖVETKEZŐ ESEMÉNY"></label>
+          <label>Esemény neve<input id="homepageEventTitle" placeholder="MULAT HATVAN"></label>
+          <label>Esemény időpontja<input type="datetime-local" id="homepageEventDate"></label>
+          <label>Dátum megjelenített szövege<input id="homepageEventDateText" placeholder="Üresen automatikus"></label>
+          <label>Helyszín<input id="homepageEventLocation" value="Sixty Night Party Park • Hatvan"></label>
+          <label class="full">Fellépők / rövid program<textarea id="homepageEventLineup" placeholder="Rostás Szabika • Döndi Duo&#10;Házigazda: Szajkó Nándor"></textarea></label>
+          <label class="full">Esemény rövid leírása<textarea id="homepageEventDescription" placeholder="Nagyszabású, sátoros este..."></textarea></label>
+          <label>Részletek linkje<input id="homepageEventDetailsUrl" placeholder="mulat-hatvan.html"></label>
+          <label>Jegyvásárlás linkje<input id="homepageEventTicketUrl" placeholder="https://tixa.hu/..."></label>
+          <label>Jegygomb felirata<input id="homepageEventTicketText" placeholder="Jegyet szeretnék →"></label>
+          <label>Jegyinformáció fő sora<input id="homepageEventTicketInfo" placeholder="Elővétel: 2 500 Ft"></label>
+          <label class="full">Jegyinformáció második sora<input id="homepageEventTicketSubtext" placeholder="Helyszíni jegy: 3 500 Ft."></label>
+          <label>Esemény borítóképe<input type="file" id="homepageEventCover" accept="image/*"></label>
+          <label>Visszaszámláló<select id="homepageCountdownEnabled"><option value="true">Bekapcsolva</option><option value="false">Kikapcsolva</option></select></label>
+          <label>Lejárat után<select id="homepageCountdownAfterEnd"><option value="hide">Tűnjön el</option><option value="zero">Maradjon 00:00:00</option></select></label>
+          <label class="cms-check"><input type="checkbox" id="homepageRemoveEventCover"> Jelenlegi eseménykép eltávolítása</label>
+        </div>
+      </div></div>
+
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><h2>Kereső és megosztási adatok</h2></div><div class="panel-body"><div class="grid">
+        <label>Oldal címe (SEO)<input id="homepageSeoTitle" placeholder="Sixty Night Party"></label>
+        <label class="full">Oldal leírása (SEO)<textarea id="homepageSeoDescription" placeholder="Sixty Night Party – Az éjszaka a tiéd."></textarea></label>
+      </div></div></div>
+
+      <div class="panel cms-publish-bar" style="margin-top:18px"><div class="panel-body"><div class="actions">
+        <button id="saveHomepageDraft" class="btn ghost">Piszkozat mentése</button>
+        <button id="previewHomepage" class="btn ghost">Előnézet</button>
+        <button id="publishHomepage" class="btn primary">Közzététel</button>
+        <button id="loadPublishedHomepage" class="btn ghost">Publikált változat betöltése</button>
+      </div><div id="homepageSaveInfo" class="cms-help" style="margin-top:12px"></div><div class="progress"><span id="homepageUploadProgress"></span></div></div></div>
     </section>
 
     <section id="eventsView" class="view hidden">
@@ -158,5 +233,5 @@
   </main>
 </div>
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="assets/js/cms-v6-5.js?v=6.5.0"></script>
+<script type="module" src="assets/js/cms-v6-6.js?v=6.6.0"></script>
 </body></html>
