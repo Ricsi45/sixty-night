@@ -1,0 +1,36 @@
+SIXTY NIGHT V6.7.1 – HELYREÁLLÍTOTT TELEPÍTÉS
+
+Ez a csomag két dolgot tesz egyszerre:
+1. Visszaállítja a működő V6.6 főoldalt és visszaszámlálót.
+2. Egyedi fájlnevekkel újra telepíti a V6.7 jegyrendelési adminmodult.
+
+FELTÖLTÉS
+- A ZIP-et csomagold ki.
+- A kicsomagolt fájlokat azonos mappaszerkezettel töltsd fel a GitHub repository gyökerébe.
+- A meglévő fájlok felülírását engedélyezd.
+
+KÜLÖNÖSEN FONTOS FÁJLOK
+/admin.html
+/admin/index.html
+/index.html
+/jegyrendeles.html
+/jegy-ellenorzes.html
+/assets/js/cms-v6-7-1.js
+/assets/js/homepage-v6-7-1.js
+/assets/js/public-content-v6-7-1.js
+/assets/js/public-page-menu-v6-7-1.js
+/assets/js/ticket-shop-v6-7-1.js
+/assets/js/ticket-validation-v6-7-1.js
+/assets/css/cms-v6-7-1.css
+/assets/css/tickets-v6-7-1.css
+
+FIREBASE
+- Firestore Database > Rules
+- Másold be a firestore.rules teljes tartalmát és kattints a Publish gombra.
+
+ELLENŐRZÉS
+Admin: https://sixtynight.hu/admin.html?v=671
+Főoldal: https://sixtynight.hu/index.html?v=671
+Jegyrendelés: https://sixtynight.hu/jegyrendeles.html?v=671
+
+Az admin bal felső sarkában a V6.7.1 feliratnak látszania kell.
