@@ -2,8 +2,8 @@
 <html lang="hu">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sixty Night CMS V6.6</title>
-<link rel="stylesheet" href="../assets/css/cms-v6-6.css?v=6.6.0">
+<title>Sixty Night CMS V6.7</title>
+<link rel="stylesheet" href="../assets/css/cms-v6-7.css?v=6.7.0">
 </head>
 <body>
 <section id="loginView" class="login">
@@ -27,7 +27,8 @@
       <button data-view="albums">📸 Albumok</button>
       <button data-view="videos">🎥 Videók</button>
       <button data-view="sponsors">🤝 Szponzorok</button>
-      <button data-view="tickets">🎟️ Jegyek</button>
+      <button data-view="tickets">🎟️ Jegytípusok</button>
+      <button data-view="orders">🧾 Jegyrendelések</button>
       <button data-view="pages">📄 Oldalak</button>
       <button data-view="settings">⚙️ Beállítások</button>
     </nav>
@@ -46,6 +47,7 @@
         <div class="stat"><strong id="countPerformers">0</strong><span>Fellépő</span></div>
         <div class="stat"><strong id="countAlbums">0</strong><span>Album</span></div>
         <div class="stat"><strong id="countPhotos">0</strong><span>Fotó</span></div>
+        <div class="stat"><strong id="countNewOrders">0</strong><span>Új rendelés</span></div>
       </div>
       <div class="panel" style="margin-bottom:18px">
       <div class="panel-head"><h2>Teljes jelenlegi weboldaltartalom</h2></div>
@@ -66,6 +68,7 @@
         <button class="btn primary" data-jump="events">Új esemény</button>
         <button class="btn primary" data-jump="albums">Új album</button>
         <button class="btn ghost" data-jump="performers">Új fellépő</button>
+        <button class="btn ghost" data-jump="orders">Rendelések megnyitása</button>
       </div></div>
     </section>
 
@@ -199,11 +202,69 @@
       <div id="sponsorsList" class="list" style="margin-top:20px"></div>
     </div></div></section>
 
-    <section id="ticketsView" class="view hidden"><div class="panel"><div class="panel-head"><h2>Jegyek / Tixa</h2></div><div class="panel-body">
-      <input type="hidden" id="ticketId"><div class="grid"><label>Megnevezés<input id="ticketName"></label><label>Ár / szöveg<input id="ticketPrice"></label><label class="full">Jegylink<input id="ticketUrl"></label><label>Aktív<select id="ticketActive"><option value="true">Igen</option><option value="false">Nem</option></select></label></div>
-      <div class="actions"><button id="saveTicket" class="btn primary">Mentés</button><button id="resetTicket" class="btn ghost">Új űrlap</button></div>
+    <section id="ticketsView" class="view hidden"><div class="panel"><div class="panel-head"><div><h2>Jegytípusok</h2><p class="cms-help">A „Weboldalon rendelhető” jegyek jelennek meg a nyilvános jegyrendelési űrlapon.</p></div></div><div class="panel-body">
+      <input type="hidden" id="ticketId"><div class="grid">
+        <label>Megnevezés<input id="ticketName" placeholder="Elővételes belépő"></label>
+        <label>Esemény<select id="ticketEventId"><option value="">Nincs eseményhez kötve</option></select></label>
+        <label>Ár megjelenített szövege<input id="ticketPrice" placeholder="2 500 Ft"></label>
+        <label>Egységár számként (Ft)<input type="number" min="0" step="1" id="ticketPriceValue" placeholder="2500"></label>
+        <label>Tixa / külső jegylink<input id="ticketUrl" placeholder="https://tixa.hu/..."></label>
+        <label>Aktív<select id="ticketActive"><option value="true">Igen</option><option value="false">Nem</option></select></label>
+        <label>Weboldalon rendelhető<select id="ticketOrderEnabled"><option value="false">Nem</option><option value="true">Igen</option></select></label>
+        <label>Maximum darabszám rendelésenként<input type="number" min="1" max="20" id="ticketMaxPerOrder" value="6"></label>
+      </div>
+      <div class="actions"><button id="saveTicket" class="btn primary">Mentés</button><button id="resetTicket" class="btn ghost">Új űrlap</button><a class="btn ghost" href="/jegyrendeles.html" target="_blank" rel="noopener">Jegyrendelési oldal</a></div>
       <div id="ticketsList" class="list" style="margin-top:20px"></div>
     </div></div></section>
+
+
+    <section id="ordersView" class="view hidden">
+      <div class="panel"><div class="panel-head"><div><h2>Jegyrendelési beállítások</h2><p class="cms-help">A vásárló rendelése a Firebase-be kerül. A Billingo-s számlát külön készíted el, majd itt egyesítheted a QR-kódos jeggyel.</p></div><a class="btn ghost" href="/jegyrendeles.html" target="_blank" rel="noopener">Publikus oldal</a></div><div class="panel-body">
+        <div class="grid">
+          <label>Jegyrendelés állapota<select id="ticketShopOrderEnabled"><option value="false">Kikapcsolva</option><option value="true">Bekapcsolva</option></select></label>
+          <label>Kapcsolati e-mail<input type="email" id="ticketShopContactEmail" placeholder="info@sixtynight.hu"></label>
+          <label>Vállalkozás neve<input id="ticketShopCompanyName" placeholder="Nagy Richárd E.V."></label>
+          <label>Adószám<input id="ticketShopTaxNumber"></label>
+          <label class="full">Vállalkozás címe<input id="ticketShopCompanyAddress"></label>
+          <label>Bankszámla kedvezményezettje<input id="ticketShopBankName"></label>
+          <label>Bankszámlaszám<input id="ticketShopBankAccount"></label>
+          <label>Telefonszám<input id="ticketShopPhone"></label>
+          <label>Fizetési határidő (nap)<input type="number" min="1" max="30" id="ticketShopPaymentDays" value="3"></label>
+          <label class="full">Átutalási tájékoztató<textarea id="ticketShopPaymentInstructions" placeholder="A közleményben tüntesd fel a rendelési azonosítót."></textarea></label>
+          <label>Adatkezelési tájékoztató linkje<input id="ticketShopPrivacyUrl" placeholder="adatkezeles.html"></label>
+          <label>Vásárlási feltételek linkje<input id="ticketShopTermsUrl" placeholder="vasarlasi-feltetelek.html"></label>
+          <label class="full">Visszaigazoló szöveg<textarea id="ticketShopConfirmationText" placeholder="A rendelést rögzítettük. A jegyet és a számlát a fizetés ellenőrzése után küldjük."></textarea></label>
+        </div>
+        <div class="actions"><button id="saveTicketShopSettings" class="btn primary">Beállítások mentése</button></div>
+      </div></div>
+
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Beérkezett rendelések</h2><p class="cms-help">Az új rendelések csak az adminban olvashatók.</p></div><span id="ordersSummary" class="cms-status">0 rendelés</span></div><div class="panel-body">
+        <div class="grid order-filters">
+          <label>Keresés<input id="orderSearch" placeholder="Név, e-mail vagy rendelési azonosító"></label>
+          <label>Állapot<select id="orderStatusFilter"><option value="">Minden állapot</option><option value="new">Új</option><option value="awaiting_payment">Fizetésre vár</option><option value="paid">Fizetve</option><option value="ticket_generated">Jegy elkészült</option><option value="sent">Elküldve</option><option value="cancelled">Lemondva</option></select></label>
+        </div>
+        <div id="ordersList" class="order-list" style="margin-top:18px"></div>
+      </div></div>
+
+      <div id="orderDetailPanel" class="panel hidden" style="margin-top:18px"><div class="panel-head"><div><h2>Rendelés kezelése</h2><p id="orderDetailHeading" class="cms-help"></p></div><button id="closeOrderDetail" class="btn ghost">Bezárás</button></div><div class="panel-body">
+        <input type="hidden" id="orderId">
+        <div id="orderDetail" class="order-detail"></div>
+        <div class="grid" style="margin-top:18px">
+          <label>Rendelés állapota<select id="orderStatus"><option value="new">Új</option><option value="awaiting_payment">Fizetésre vár</option><option value="paid">Fizetve</option><option value="ticket_generated">Jegy elkészült</option><option value="sent">Elküldve</option><option value="cancelled">Lemondva</option></select></label>
+          <label>Billingo számla PDF<input type="file" id="orderInvoicePdf" accept="application/pdf"><span class="cms-file-note">A fájl nem kerül feltöltésre: csak a böngésződben lesz egyesítve.</span></label>
+        </div>
+        <div class="actions">
+          <button id="saveOrderStatus" class="btn primary">Állapot mentése</button>
+          <button id="generateTicketPdf" class="btn primary">QR-jegy letöltése</button>
+          <button id="mergeInvoiceTicket" class="btn ghost">Számla + jegy egyesítése</button>
+          <button id="openOrderEmail" class="btn ghost">Gmail megnyitása</button>
+          <button id="markOrderSent" class="btn ghost">Elküldve jelölés</button>
+          <button id="revokeOrderTickets" class="btn danger">Jegyek érvénytelenítése</button>
+        </div>
+        <div class="notice" style="margin-top:18px;margin-bottom:0">A böngésző biztonsági korlátozása miatt a PDF nem csatolható automatikusan a Gmailhez. Töltsd le az egyesített fájlt, majd csatold a megnyíló levélhez.</div>
+      </div></div>
+      <div id="ticketQrRender" class="hidden" aria-hidden="true"></div>
+    </section>
 
     <section id="pagesView" class="view hidden">
       <div class="panel"><div class="panel-head"><h2>Oldal létrehozása / szerkesztése</h2></div><div class="panel-body">
@@ -238,5 +299,7 @@
   </main>
 </div>
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="../assets/js/cms-v6-6.js?v=6.6.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script type="module" src="../assets/js/cms-v6-7.js?v=6.7.0"></script>
 </body></html>

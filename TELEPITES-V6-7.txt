@@ -1,0 +1,21 @@
+SIXTY NIGHT CMS V6.7 – JEGYRENDELÉSEK
+
+1. A ZIP-et csomagold ki.
+2. A csomag TARTALMÁT töltsd fel azonos mappaszerkezettel a GitHub repository gyökerébe.
+3. Különösen fontos:
+   - admin.html
+   - admin/index.html
+   - assets/css/cms-v6-7.css
+   - assets/css/tickets-v6-7.css
+   - assets/js/cms-v6-7.js
+   - assets/js/ticket-shop-v6-7.js
+   - assets/js/ticket-validation-v6-7.js
+   - jegyrendeles.html
+   - jegy-ellenorzes.html
+4. Firebase Console → Firestore Database → Rules: másold be a firestore.rules teljes tartalmát, majd Publish.
+5. Nyisd meg: https://sixtynight.hu/admin.html?v=670 és nyomj Ctrl+F5-öt.
+6. Jegytípusok: adj meg számszerű árat, eseményt és kapcsold be a „Weboldalon rendelhető” mezőt.
+7. Jegyrendelések: töltsd ki a vállalkozási/banki adatokat, majd kapcsold be a rendszert.
+8. Teszt: https://sixtynight.hu/jegyrendeles.html?v=670
+
+FONTOS: A Gmail gomb előre kitölti a levelet, de a letöltött PDF-et kézzel kell csatolni. A Billingo számla PDF nem kerül feltöltésre a Firebase-be.

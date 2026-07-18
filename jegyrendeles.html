@@ -1,0 +1,31 @@
+<!doctype html><html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Jegyrendelés | Sixty Night Party</title><meta name="description" content="Online jegyrendelés a Sixty Night Party eseményeire."><link rel="stylesheet" href="assets/css/tickets-v6-7.css?v=6.7.0"></head><body>
+<header class="site-header"><nav class="nav"><a class="brand" href="index.html">SIXTY NIGHT <span>PARTY</span></a><a href="index.html">Főoldal</a><a href="esemenyek.html">Események</a><a href="fellepok.html">Fellépők</a><a href="fotok.html">Fotók</a><span class="dynamic-pages" data-dynamic-pages></span><a href="kapcsolat.html">Kapcsolat</a></nav></header>
+<section class="hero"><div class="eyebrow">SIXTY NIGHT PARTY • BIZTONSÁGOS RENDELÉS</div><h1>JEGYRENDELÉS</h1><p>Válaszd ki a jegyet, töltsd ki az adataidat, majd a rendelésed megjelenik a Sixty Night adminrendszerében. A fizetés ellenőrzése után e-mailben kapod meg a QR-kódos belépőjegyet és a Billingo számlát.</p></section>
+<main class="layout">
+<section class="card"><div class="card-head"><h2>Rendelési adatok</h2><p>A csillaggal jelölt mezők kitöltése kötelező.</p></div><div class="card-body">
+<div id="shopState" class="notice">Jegyek betöltése…</div>
+<form id="ticketOrderForm" class="hidden" novalidate>
+  <div class="grid">
+    <label class="full">Jegytípus *<select id="orderTicket" required><option value="">Válassz jegyet</option></select></label>
+    <label>Darabszám *<input type="number" id="orderQuantity" min="1" max="10" value="1" required></label>
+    <label>Fizetési mód<select id="orderPaymentMethod"><option value="bank_transfer">Banki átutalás</option></select></label>
+    <label>Teljes név *<input id="orderBuyerName" maxlength="120" autocomplete="name" required></label>
+    <label>E-mail-cím *<input type="email" id="orderEmail" maxlength="180" autocomplete="email" required></label>
+    <label>Telefonszám *<input id="orderPhone" maxlength="40" autocomplete="tel" required></label>
+    <label>Számlázási név *<input id="orderBillingName" maxlength="160" required></label>
+    <label>Irányítószám *<input id="orderBillingZip" maxlength="12" inputmode="numeric" required></label>
+    <label>Település *<input id="orderBillingCity" maxlength="100" required></label>
+    <label class="full">Utca, házszám *<input id="orderBillingAddress" maxlength="180" required></label>
+    <label class="full">Adószám céges vásárlásnál<input id="orderTaxNumber" maxlength="30"></label>
+    <label class="full">Megjegyzés<textarea id="orderNote" maxlength="1000" placeholder="Például eltérő jegytulajdonos neve"></textarea></label>
+    <label class="honeypot">Weboldal<input id="orderWebsite" tabindex="-1" autocomplete="off"></label>
+    <label class="full check"><input type="checkbox" id="orderTerms" required><span>Elfogadom a <a id="termsLink" href="#" target="_blank" rel="noopener">vásárlási feltételeket</a>.</span></label>
+    <label class="full check"><input type="checkbox" id="orderPrivacy" required><span>Megismertem az <a id="privacyLink" href="#" target="_blank" rel="noopener">adatkezelési tájékoztatót</a>.</span></label>
+  </div>
+  <button id="submitOrder" class="btn" type="submit">Rendelés elküldése</button>
+</form>
+<div id="orderResult" class="notice success hidden"></div>
+</div></section>
+<aside class="card summary"><div class="card-head"><h2>Összesítés</h2></div><div class="card-body"><div class="summary-line"><span>Esemény</span><strong id="summaryEvent">—</strong></div><div class="summary-line"><span>Jegy</span><strong id="summaryTicket">—</strong></div><div class="summary-line"><span>Egységár</span><strong id="summaryUnit">—</strong></div><div class="summary-line"><span>Darabszám</span><strong id="summaryQuantity">1</strong></div><div class="summary-line total"><span>Fizetendő</span><strong id="summaryTotal">0 Ft</strong></div><h3>Átutalási információ</h3><div id="paymentInfo" class="payment">A rendelés elküldése után itt jelennek meg a fizetési adatok.</div></div></aside>
+</main><footer class="footer">Sixty Night Party · Az éjszaka a tiéd.</footer>
+<script type="module" src="assets/js/public-page-menu-v6-6.js?v=6.6.0"></script><script type="module" src="assets/js/ticket-shop-v6-7.js?v=6.7.0"></script></body></html>

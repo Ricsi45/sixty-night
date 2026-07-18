@@ -7,6 +7,55 @@ service cloud.firestore {
         && request.auth.token.email == "csabanagy34@gmail.com";
     }
 
+    function shortText(value, maxLength) {
+      return value is string && value.size() > 0 && value.size() <= maxLength;
+    }
+
+    function optionalText(value, maxLength) {
+      return value is string && value.size() <= maxLength;
+    }
+
+    function validTicketOrder() {
+      let data = request.resource.data;
+      let ticket = get(/databases/$(database)/documents/tickets/$(data.ticketId)).data;
+      return data.keys().hasOnly([
+          'orderNumber','ticketId','ticketName','eventId','eventName','eventDate','eventLocation',
+          'unitPrice','quantity','total','buyerName','email','phone','billingName','billingZip',
+          'billingCity','billingAddress','taxNumber','note','paymentMethod','status',
+          'termsAccepted','privacyAccepted','createdAt','clientCreatedAt'
+        ])
+        && shortText(data.orderNumber, 40)
+        && shortText(data.ticketId, 140)
+        && shortText(data.ticketName, 180)
+        && optionalText(data.eventId, 140)
+        && optionalText(data.eventName, 180)
+        && optionalText(data.eventDate, 80)
+        && optionalText(data.eventLocation, 200)
+        && data.unitPrice is number && data.unitPrice > 0 && data.unitPrice < 1000000
+        && data.quantity is int && data.quantity >= 1 && data.quantity <= 20
+        && data.total is number && data.total == data.unitPrice * data.quantity
+        && shortText(data.buyerName, 120)
+        && shortText(data.email, 180)
+        && shortText(data.phone, 40)
+        && shortText(data.billingName, 160)
+        && shortText(data.billingZip, 12)
+        && shortText(data.billingCity, 100)
+        && shortText(data.billingAddress, 180)
+        && optionalText(data.taxNumber, 30)
+        && optionalText(data.note, 1000)
+        && data.paymentMethod == 'bank_transfer'
+        && data.status == 'new'
+        && data.termsAccepted == true
+        && data.privacyAccepted == true
+        && data.createdAt == request.time
+        && optionalText(data.clientCreatedAt, 80)
+        && ticket.active == true
+        && ticket.orderEnabled == true
+        && ticket.name == data.ticketName
+        && ticket.priceValue == data.unitPrice
+        && data.quantity <= ticket.maxPerOrder;
+    }
+
     match /events/{id} { allow read: if resource.data.published == true || isAdmin(); allow write: if isAdmin(); }
     match /performers/{id} { allow read: if true; allow write: if isAdmin(); }
     match /albums/{id} { allow read: if resource.data.published == true || isAdmin(); allow write: if isAdmin(); }
@@ -16,5 +65,16 @@ service cloud.firestore {
     match /tickets/{id} { allow read: if true; allow write: if isAdmin(); }
     match /settings/{id} { allow read: if true; allow write: if isAdmin(); }
     match /pages/{id} { allow read: if resource.data.published == true || isAdmin(); allow write: if isAdmin(); }
+
+    match /ticketOrders/{id} {
+      allow create: if validTicketOrder();
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /issuedTickets/{code} {
+      allow get: if true;
+      allow list: if isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
   }
 }
