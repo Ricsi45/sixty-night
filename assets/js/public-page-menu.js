@@ -1,1 +1,60 @@
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";import { getFirestore,collection,getDocs } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";import { firebaseConfig } from "./firebase-config.js?v=4.0.0";const app=getApps().length?getApps()[0]:initializeApp(firebaseConfig),db=getFirestore(app);const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));async function run(){try{const snap=await getDocs(collection(db,"pages"));const pages=snap.docs.map(d=>d.data()).filter(x=>x.deleted!==true&&x.published===true&&x.showInMenu!==false).sort((a,b)=>(Number(a.order)||100)-(Number(b.order)||100));if(!pages.length)return;const candidates=[...document.querySelectorAll("nav ul, nav .nav-links, header nav, .navbar, .menu")];const root=candidates.find(x=>x.querySelector("a"));if(!root)return;for(const p of pages){if(root.querySelector(`a[href*="slug=${CSS.escape(p.slug)}"]`))continue;const a=document.createElement("a");a.href=`page.html?slug=${encodeURIComponent(p.slug)}`;a.textContent=p.menuLabel||p.title;if(root.tagName==="UL"){const li=document.createElement("li");li.appendChild(a);root.appendChild(li)}else root.appendChild(a)}}catch(e){console.warn("Dinamikus menü nem tölthető",e)}}run();
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { firebaseConfig } from "./firebase-config.js?v=6.4.0";
+
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+function pageUrl(page) {
+  if (page.pageType === "existing" && page.targetPath) return page.targetPath;
+  return `page.html?slug=${encodeURIComponent(page.slug || page.id)}`;
+}
+
+function normalizedUrl(value) {
+  const url = new URL(value, location.href);
+  return `${url.pathname}${url.search}`;
+}
+
+async function loadPages() {
+  const snapshot = await getDocs(collection(db, "pages"));
+  return snapshot.docs
+    .map((entry) => ({ id: entry.id, ...entry.data() }))
+    .filter((page) => page.deleted !== true && page.published === true && page.showInMenu !== false)
+    .sort((a, b) => Number(a.order ?? 100) - Number(b.order ?? 100));
+}
+
+function findMenu() {
+  return document.querySelector("header nav.menu, header nav.nav, header nav, nav.menu, nav.nav");
+}
+
+function insertPageLink(menu, page, existing) {
+  const href = pageUrl(page);
+  const key = normalizedUrl(href);
+  if (existing.has(key)) return;
+
+  const link = document.createElement("a");
+  link.href = href;
+  link.textContent = page.menuLabel || page.title || "Oldal";
+  link.dataset.cmsPageLink = page.id;
+
+  const contact = [...menu.querySelectorAll(":scope > a")]
+    .find((item) => /kapcsolat/i.test(item.textContent || ""));
+  menu.insertBefore(link, contact || null);
+  existing.add(key);
+}
+
+async function boot() {
+  try {
+    const menu = findMenu();
+    if (!menu) return;
+    menu.querySelectorAll("[data-cms-page-link]").forEach((element) => element.remove());
+    const existing = new Set([...menu.querySelectorAll("a[href]")].map((link) => normalizedUrl(link.getAttribute("href"))));
+    const pages = await loadPages();
+    pages.forEach((page) => insertPageLink(menu, page, existing));
+  } catch (error) {
+    console.warn("[Sixty Night] A dinamikus oldalak menüje nem tölthető be:", error);
+  }
+}
+
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot, { once: true });
+else boot();

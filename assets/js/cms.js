@@ -3,8 +3,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/fireba
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 import { getFirestore, collection, doc, addDoc, setDoc, updateDoc, deleteDoc, getDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
-import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js?v=6.3.0";
-import { LEGACY_CONTENT } from "./legacy-content.js?v=6.3.0";
+import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js?v=6.4.0";
+import { LEGACY_CONTENT } from "./legacy-content.js?v=6.4.0";
 
 let app, auth, db, storage;
 try {
@@ -25,6 +25,21 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 const toast=(m,type="ok")=>{const t=$("toast");t.textContent=m;t.className=`toast ${type}`;setTimeout(()=>t.className="toast hidden",3500)};
 const isAdmin=u=>u && u.email && u.email.toLowerCase()===ADMIN_EMAIL.toLowerCase();
+const BUILT_IN_PAGES = [
+  {id:"page-existing-index",title:"Főoldal",heroTitle:"SIXTY NIGHT PARTY – AZ ÉJSZAKA A TIÉD.",slug:"fooldal",pageType:"existing",targetPath:"index.html",menuLabel:"Főoldal",order:0,published:true,showInMenu:false,replaceMain:false,intro:"Látvány. Zene. Élmény. Egy helyen.",content:"",seoTitle:"Sixty Night Party",seoDescription:"Sixty Night Party – Az éjszaka a tiéd."},
+  {id:"page-existing-events",title:"Események",heroTitle:"KORÁBBI ESEMÉNYEINK",slug:"esemenyek",pageType:"existing",targetPath:"esemenyek.html",menuLabel:"Események",order:10,published:true,showInMenu:false,replaceMain:false,intro:"A Sixty Night korábbi rendezvényei és fellépői egy helyen.",content:"",seoTitle:"Események | Sixty Night Party",seoDescription:"A Sixty Night Party eseményei."},
+  {id:"page-existing-performers",title:"Fellépők",heroTitle:"EDDIGI FELLÉPŐINK",slug:"fellepok",pageType:"existing",targetPath:"fellepok.html",menuLabel:"Fellépők",order:20,published:true,showInMenu:false,replaceMain:false,intro:"Előadók és DJ-k, akik már színpadra léptek a Sixty Night rendezvényein.",content:"",seoTitle:"Fellépők | Sixty Night Party",seoDescription:"A Sixty Night Party fellépői."},
+  {id:"page-existing-photos",title:"Fotók",heroTitle:"FOTÓK",slug:"fotok",pageType:"existing",targetPath:"fotok.html",menuLabel:"Fotók",order:30,published:true,showInMenu:false,replaceMain:false,intro:"Válogatott képek a Sixty Night Party eseményeiről.",content:"",seoTitle:"Fotók | Sixty Night Party",seoDescription:"Sixty Night Party fotóalbumok."},
+  {id:"page-existing-videos",title:"Videótár",heroTitle:"NÉZD VISSZA A BULIKAT",slug:"videotar",pageType:"existing",targetPath:"videotar.html",menuLabel:"Videótár",order:40,published:true,showInMenu:false,replaceMain:false,intro:"Aftermovie-k a Sixty Night leglátványosabb eseményeiről.",content:"",seoTitle:"Videótár | Sixty Night Party",seoDescription:"Sixty Night Party aftermovie-k és videók."},
+  {id:"page-existing-about",title:"Rólunk",heroTitle:"RÓLUNK",slug:"rolunk",pageType:"existing",targetPath:"rolunk.html",menuLabel:"Rólunk",order:50,published:true,showInMenu:false,replaceMain:false,intro:"Ismerd meg a Sixty Night Party rendezvénymárkát.",content:"",seoTitle:"Rólunk | Sixty Night Party",seoDescription:"Ismerd meg a Sixty Night Party rendezvénymárkát."},
+  {id:"page-existing-location",title:"Helyszín",heroTitle:"SIXTY NIGHT PARTY PARK",slug:"helyszin",pageType:"existing",targetPath:"helyszin.html",menuLabel:"Helyszín",order:60,published:true,showInMenu:false,replaceMain:false,intro:"A Sixty Night Party Park helyszíninformációi.",content:"",seoTitle:"Helyszín | Sixty Night Party",seoDescription:"Sixty Night Party Park helyszíninformációk."},
+  {id:"page-existing-vip",title:"VIP",heroTitle:"VIP CLUB",slug:"vip",pageType:"existing",targetPath:"vip.html",menuLabel:"VIP",order:70,published:true,showInMenu:false,replaceMain:false,intro:"Exkluzívabb környezet és különleges rálátás az eseményekre.",content:"",seoTitle:"VIP | Sixty Night Party",seoDescription:"Sixty Night Party VIP információk."},
+  {id:"page-existing-contact",title:"Kapcsolat",heroTitle:"ÍRJ NEKÜNK",slug:"kapcsolat",pageType:"existing",targetPath:"kapcsolat.html",menuLabel:"Kapcsolat",order:80,published:true,showInMenu:false,replaceMain:false,intro:"Jegyek, fellépői megkeresések, szponzoráció és együttműködés.",content:"",seoTitle:"Kapcsolat | Sixty Night Party",seoDescription:"Kapcsolatfelvétel a Sixty Night Party csapatával."},
+  {id:"page-existing-mulat",title:"Mulat Hatvan",heroTitle:"MULAT HATVAN",slug:"mulat-hatvan",pageType:"existing",targetPath:"mulat-hatvan.html",menuLabel:"Mulat Hatvan",order:90,published:true,showInMenu:false,replaceMain:false,intro:"2026. szeptember 12. • Sixty Night Party Park",content:"",seoTitle:"Mulat Hatvan | Sixty Night Party",seoDescription:"Mulat Hatvan eseményinformációk."},
+  {id:"page-existing-uv",title:"UV Cirkusz 2.0",heroTitle:"UV CIRKUSZ 2.0",slug:"uv-cirkusz",pageType:"existing",targetPath:"uv-cirkusz.html",menuLabel:"UV Cirkusz",order:100,published:true,showInMenu:false,replaceMain:false,intro:"2026. május 23. • Sixty Night Party Park, Hatvan",content:"",seoTitle:"UV Cirkusz 2.0 | Sixty Night Party",seoDescription:"UV Cirkusz 2.0 eseményinformációk."},
+  {id:"page-existing-holi",title:"Holi Jungle",heroTitle:"HOLI JUNGLE",slug:"holi-jungle",pageType:"existing",targetPath:"holi-jungle.html",menuLabel:"Holi Jungle",order:110,published:true,showInMenu:false,replaceMain:false,intro:"2026. május 24. • Sixty Night Party Park, Hatvan",content:"",seoTitle:"Holi Jungle | Sixty Night Party",seoDescription:"Holi Jungle eseményinformációk."}
+];
+const CMS_PAGES = Array.isArray(LEGACY_CONTENT.pages) && LEGACY_CONTENT.pages.length ? LEGACY_CONTENT.pages : BUILT_IN_PAGES;
 
 $("loginBtn").onclick=async()=>{
   $("loginError").textContent="";
@@ -216,7 +231,7 @@ async function seedCollection(collectionName, items) {
 }
 
 async function ensureBuiltInPages() {
-  for (const page of (LEGACY_CONTENT.pages || [])) {
+  for (const page of CMS_PAGES) {
     const pageRef = doc(db, "pages", page.id);
     const snapshot = await getDoc(pageRef);
     if (!snapshot.exists()) {
@@ -288,7 +303,7 @@ const LEGACY_BY_COLLECTION = {
   videos: LEGACY_CONTENT.videos || [],
   sponsors: LEGACY_CONTENT.sponsors || [],
   tickets: LEGACY_CONTENT.tickets || [],
-  pages: LEGACY_CONTENT.pages || []
+  pages: CMS_PAGES
 };
 
 const normalizeIdentity = value => String(value || "")
@@ -541,7 +556,7 @@ async function loadPages(){
     console.error("Oldalak betöltési hiba:", error);
   }
 
-  const builtIn = (LEGACY_CONTENT.pages || []).map((fallback) => {
+  const builtIn = CMS_PAGES.map((fallback) => {
     const matches = firestorePages.filter((item) =>
       item.id === fallback.id ||
       (item.pageType === "existing" && String(item.targetPath || "").replace(/^\//, "") === fallback.targetPath)
