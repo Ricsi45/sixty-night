@@ -1,0 +1,26 @@
+SIXTY NIGHT V6.7.6 – KÉPES JEGY + FOTÓALBUM JAVÍTÁS
+
+1. Csomagold ki a ZIP-fájlt.
+2. A csomagban lévő fájlokat és mappákat töltsd fel a GitHub repository GYÖKERÉBE.
+3. Engedélyezd a meglévő fájlok felülírását.
+4. Várj 1–3 percet a GitHub Pages frissülésére.
+5. Nyisd meg az adminfelületet, majd jelentkezz be egyszer. Az albumjavítás automatikusan lefut.
+6. Ha még látsz hibás sorrendet, az Albumok menüben nyomd meg az „Albumok rendbetétele” gombot.
+7. Ezután frissítsd a nyilvános oldalt Ctrl+F5 billentyűkkel.
+
+ÚJ FUNKCIÓK
+- Jegytípusonként feltölthető „Jegykép / eseményplakát”.
+- A kép rákerül a letölthető PDF-belépőjegyre.
+- Nincs QR-kódos beléptetés.
+- Az azonos nevű, duplikált albumokat a rendszer összevonja.
+- A képek albumhoz rendelése és sorrendje javítható.
+- Beállítható külön albumborító, vagy az első kép lesz a borító.
+- A publikus albumok dátum szerint, legújabbtól a legrégebbiig jelennek meg.
+- Az új CMS-albumok és a régi albumkártyák közös időrendben jelennek meg.
+
+FIREBASE
+- A firestore.rules és storage.rules módosítása NEM szükséges.
+
+FONTOS
+- A korábbi QR-beléptető csomagot ne töltsd fel.
+- A javítás a meglévő oldalra épül, nem cseréli le a teljes CMS-rendszert.
