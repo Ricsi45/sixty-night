@@ -1,0 +1,20 @@
+SIXTY NIGHT V6.7.7 – PUBLIKUS KÉPEK ÉS OLDALAK JAVÍTÁSA
+
+JAVÍTVA
+- A publikus oldalak egységesen ugyanazt a V6.7.7 Firebase-szinkront használják.
+- A fotóalbumok és a hozzájuk tartozó képek ismét betöltődnek.
+- A publikált eseményképek betöltése Firestore-kompatibilis lekérdezést használ.
+- A CMS-ben publikált egyedi oldalak, köztük a Házirend, ismét megjelennek a menüben.
+- A page.html csak publikált oldalakat kér le, ezért a Firestore nem tiltja le a teljes listát.
+- A főoldal, visszaszámláló és jegyrendelés működéséhez nem nyúltunk.
+
+TELEPÍTÉS
+1. Csomagold ki a ZIP-et.
+2. A teljes tartalmat töltsd fel a GitHub repository gyökerébe.
+3. Engedélyezd a fájlok felülírását.
+4. Várj 2–5 percet a GitHub Pages frissülésére.
+5. Nyisd meg a sixtynight.hu oldalt, majd nyomj Ctrl+F5-öt.
+6. Az admin Oldalak menüjében ellenőrizd, hogy a Házirend állapota „Publikus” és „Menüben”.
+
+FIREBASE
+- A firestore.rules és storage.rules módosítása nem szükséges.
