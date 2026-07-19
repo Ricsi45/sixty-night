@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sixty Night CMS V6.7.6</title>
+<link rel="stylesheet" href="../assets/css/cms-v6-7-8.css?v=6.7.8">
+</head>
+<body>
+<section id="loginView" class="login">
+  <div class="login-card">
+    <div style="font-size:3rem">🎛️</div>
+    <h1>Sixty Night CMS</h1>
+    <p>Jelentkezz be a tulajdonosi Google-fiókkal. Az adminból kezelheted az eseményeket, fellépőket, albumokat, képeket, videókat, szponzorokat és jegylinkeket.</p>
+    <button id="loginBtn" class="btn primary">Belépés Google-fiókkal</button>
+    <p id="loginError" style="color:#ff8a96"></p>
+  </div>
+</section>
+
+<div id="appView" class="app hidden">
+  <aside class="sidebar">
+    <div class="brand">SIXTY NIGHT <span>CMS</span><small style="display:block;color:#8b8b9c;font-size:.68rem;margin-top:4px">V6.7.6</small></div>
+    <nav class="nav" id="nav">
+      <button data-view="dashboard" class="active">🏠 Dashboard</button>
+      <button data-view="homepage">✨ Főoldal</button>
+      <button data-view="events">📅 Események</button>
+      <button data-view="performers">🎤 Fellépők</button>
+      <button data-view="albums">📸 Albumok</button>
+      <button data-view="videos">🎥 Videók</button>
+      <button data-view="sponsors">🤝 Szponzorok</button>
+      <button data-view="tickets">🎟️ Jegytípusok</button>
+      <button data-view="orders">🧾 Jegyrendelések</button>
+      <button data-view="pages">📄 Oldalak</button>
+      <button data-view="settings">⚙️ Beállítások</button>
+    </nav>
+    <div class="sidebar-bottom"><button id="logoutBtn" class="btn ghost" style="width:100%">Kijelentkezés</button></div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><div style="color:var(--pink);font-weight:850">SIXTY NIGHT PARTY</div><h1 id="viewTitle">Dashboard</h1></div>
+      <div class="user"><img id="userPhoto"><span id="userName"></span></div>
+    </header>
+
+    <section id="dashboardView" class="view">
+      <div class="notice">A rendszer éles Firebase-adatbázist és Storage-ot használ. A törlés azonnali.</div>
+      <div class="stats">
+        <div class="stat"><strong id="countEvents">0</strong><span>Esemény</span></div>
+        <div class="stat"><strong id="countPerformers">0</strong><span>Fellépő</span></div>
+        <div class="stat"><strong id="countAlbums">0</strong><span>Album</span></div>
+        <div class="stat"><strong id="countPhotos">0</strong><span>Fotó</span></div>
+        <div class="stat"><strong id="countNewOrders">0</strong><span>Új rendelés</span></div>
+      </div>
+      <div class="panel" style="margin-bottom:18px">
+      <div class="panel-head"><h2>Teljes jelenlegi weboldaltartalom</h2></div>
+      <div class="panel-body">
+        <p style="color:var(--muted);line-height:1.7">
+          A korábbi események, albumok, videók, fellépők és partnerek akkor is látszanak, ha a Firebase-import nem fut le. Bármelyik elem szerkesztésekor az adat automatikusan Firebase-be mentődik.
+        </p>
+        <div class="stats" style="margin:16px 0">
+          <div class="stat"><strong>5</strong><span>Esemény</span></div>
+          <div class="stat"><strong>5</strong><span>Fotóalbum</span></div>
+          <div class="stat"><strong>2</strong><span>Aftermovie</span></div>
+          <div class="stat"><strong>20</strong><span>Fellépő</span></div>
+        </div>
+        <div class="actions"><button id="importExistingBtn" class="btn ghost">Meglévő tartalom újratöltése</button><button id="cleanupDuplicatesBtn" class="btn danger">Duplikációk biztonságos tisztítása</button></div><p id="cleanupStatus" style="color:var(--muted);margin-top:12px"></p>
+      </div>
+    </div>
+    <div class="panel"><div class="panel-head"><h2>Gyors műveletek</h2></div><div class="panel-body actions">
+        <button class="btn primary" data-jump="events">Új esemény</button>
+        <button class="btn primary" data-jump="albums">Új album</button>
+        <button class="btn ghost" data-jump="performers">Új fellépő</button>
+        <button class="btn ghost" data-jump="orders">Rendelések megnyitása</button>
+      </div></div>
+    </section>
+
+
+    <section id="homepageView" class="view hidden">
+      <div class="panel"><div class="panel-head"><div><h2>Főoldal-szerkesztő</h2><p class="cms-help">A piszkozat nem jelenik meg a látogatóknak. A főoldal csak a <strong>Közzététel</strong> gomb után változik meg.</p></div><span id="homepagePublishStatus" class="cms-status">Nincs betöltve</span></div><div class="panel-body">
+        <div class="grid">
+          <label>Felső kis felirat<input id="homepageEyebrow" placeholder="SIXTY NIGHT PARTY • HATVAN"></label>
+          <label>Főcím<input id="homepageHeroTitle" placeholder="SIXTY NIGHT PARTY"></label>
+          <label>Kiemelt címsor<input id="homepageHeroAccent" placeholder="AZ ÉJSZAKA A TIÉD."></label>
+          <label>Elsődleges gomb felirata<input id="homepagePrimaryText" placeholder="Esemény részletei"></label>
+          <label class="full">Bevezető szöveg<textarea id="homepageHeroLead" placeholder="Látvány. Zene. Élmény. Egy helyen."></textarea></label>
+          <label>Elsődleges gomb linkje<input id="homepagePrimaryUrl" placeholder="#event vagy https://..."></label>
+          <label>Másodlagos gomb felirata<input id="homepageSecondaryText" placeholder="Korábbi események"></label>
+          <label class="full">Másodlagos gomb linkje<input id="homepageSecondaryUrl" placeholder="esemenyek.html"></label>
+        </div>
+      </div></div>
+
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Főoldali háttér</h2><p class="cms-help">A „Meglévő váltakozó képek” mód változatlanul hagyja a jelenlegi főoldali hátteret.</p></div></div><div class="panel-body">
+        <div class="grid">
+          <label>Háttér típusa<select id="homepageMediaMode"><option value="slider">Meglévő váltakozó képek</option><option value="image">Egyedi kép</option><option value="video">Videó</option></select></label>
+          <label>Kép pozíciója<select id="homepageBackgroundPosition"><option value="center">Középen</option><option value="center top">Felül</option><option value="center bottom">Alul</option><option value="left center">Balra</option><option value="right center">Jobbra</option></select></label>
+          <label>Asztali háttérkép<input type="file" id="homepageDesktopImage" accept="image/*"><span class="cms-file-note">Ajánlott: 1920×1080 vagy nagyobb</span></label>
+          <label>Mobilos háttérkép<input type="file" id="homepageMobileImage" accept="image/*"><span class="cms-file-note">Ajánlott: 1080×1350 vagy 1080×1920</span></label>
+          <label class="full">Videó URL<input id="homepageVideoUrl" placeholder="Firebase Storage vagy közvetlen MP4 link"></label>
+          <label>Videófájl feltöltése<input type="file" id="homepageVideoFile" accept="video/mp4,video/webm"><span class="cms-file-note">Legfeljebb 19 MB (a jelenlegi Firebase-szabály szerint)</span></label>
+          <label>Videó poszterkép<input type="file" id="homepageVideoPoster" accept="image/*"></label>
+          <label class="cms-check"><input type="checkbox" id="homepageRemoveDesktop"> Jelenlegi asztali kép eltávolítása</label>
+          <label class="cms-check"><input type="checkbox" id="homepageRemoveMobile"> Jelenlegi mobilkép eltávolítása</label>
+          <label class="cms-check"><input type="checkbox" id="homepageRemoveVideo"> Jelenlegi videó eltávolítása</label>
+          <label class="cms-check"><input type="checkbox" id="homepageRemovePoster"> Jelenlegi poszter eltávolítása</label>
+        </div>
+        <div class="cms-media-preview">
+          <div><span>Asztali kép</span><img id="homepageDesktopPreview" alt="Asztali háttér előnézete"></div>
+          <div><span>Mobilkép</span><img id="homepageMobilePreview" alt="Mobil háttér előnézete"></div>
+          <div><span>Eseménykép</span><img id="homepageEventPreview" alt="Eseménykép előnézete"></div>
+        </div>
+        <div id="homepageVideoCurrent" class="cms-current-link"></div>
+      </div></div>
+
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Kiemelt esemény és visszaszámláló</h2><p class="cms-help">Átveheted egy mentett esemény adatait, majd külön finomíthatod a főoldali megjelenést.</p></div></div><div class="panel-body">
+        <div class="grid">
+          <label>Mentett esemény<select id="homepageEventSource"><option value="">Kézi kitöltés</option></select></label>
+          <label><span>&nbsp;</span><button type="button" id="homepageCopyEvent" class="btn ghost" style="width:100%">Esemény adatainak átvétele</button></label>
+          <label>Kiemelt esemény látható<select id="homepageEventEnabled"><option value="true">Igen</option><option value="false">Nem</option></select></label>
+          <label>Jelvény felirata<input id="homepageEventBadge" placeholder="KÖVETKEZŐ ESEMÉNY"></label>
+          <label>Esemény neve<input id="homepageEventTitle" placeholder="MULAT HATVAN"></label>
+          <label>Esemény időpontja<input type="datetime-local" id="homepageEventDate"></label>
+          <label>Dátum megjelenített szövege<input id="homepageEventDateText" placeholder="Üresen automatikus"></label>
+          <label>Helyszín<input id="homepageEventLocation" value="Sixty Night Party Park • Hatvan"></label>
+          <label class="full">Fellépők / rövid program<textarea id="homepageEventLineup" placeholder="Rostás Szabika • Döndi Duo&#10;Házigazda: Szajkó Nándor"></textarea></label>
+          <label class="full">Esemény rövid leírása<textarea id="homepageEventDescription" placeholder="Nagyszabású, sátoros este..."></textarea></label>
+          <label>Részletek linkje<input id="homepageEventDetailsUrl" placeholder="mulat-hatvan.html"></label>
+          <label>Jegyvásárlás linkje<input id="homepageEventTicketUrl" placeholder="https://tixa.hu/..."></label>
+          <label>Jegygomb felirata<input id="homepageEventTicketText" placeholder="Jegyet szeretnék →"></label>
+          <label>Jegyinformáció fő sora<input id="homepageEventTicketInfo" placeholder="Elővétel: 2 500 Ft"></label>
+          <label class="full">Jegyinformáció második sora<input id="homepageEventTicketSubtext" placeholder="Helyszíni jegy: 3 500 Ft."></label>
+          <label>Esemény borítóképe<input type="file" id="homepageEventCover" accept="image/*"></label>
+          <label>Visszaszámláló<select id="homepageCountdownEnabled"><option value="true">Bekapcsolva</option><option value="false">Kikapcsolva</option></select></label>
+          <label>Lejárat után<select id="homepageCountdownAfterEnd"><option value="hide">Tűnjön el</option><option value="zero">Maradjon 00:00:00</option></select></label>
+          <label class="cms-check"><input type="checkbox" id="homepageRemoveEventCover"> Jelenlegi eseménykép eltávolítása</label>
+        </div>
+      </div></div>
+
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><h2>Kereső és megosztási adatok</h2></div><div class="panel-body"><div class="grid">
+        <label>Oldal címe (SEO)<input id="homepageSeoTitle" placeholder="Sixty Night Party"></label>
+        <label class="full">Oldal leírása (SEO)<textarea id="homepageSeoDescription" placeholder="Sixty Night Party – Az éjszaka a tiéd."></textarea></label>
+      </div></div></div>
+
+      <div class="panel cms-publish-bar" style="margin-top:18px"><div class="panel-body"><div class="actions">
+        <button id="saveHomepageDraft" class="btn ghost">Piszkozat mentése</button>
+        <button id="previewHomepage" class="btn ghost">Előnézet</button>
+        <button id="publishHomepage" class="btn primary">Közzététel</button>
+        <button id="loadPublishedHomepage" class="btn ghost">Publikált változat betöltése</button>
+      </div><div id="homepageSaveInfo" class="cms-help" style="margin-top:12px"></div><div class="progress"><span id="homepageUploadProgress"></span></div></div></div>
+    </section>
+
+    <section id="eventsView" class="view hidden">
+      <div class="panel"><div class="panel-head"><h2>Esemény szerkesztése</h2></div><div class="panel-body">
+        <input type="hidden" id="eventId">
+        <div class="grid">
+          <label>Név<input id="eventName"></label><label>Dátum<input type="datetime-local" id="eventDate"></label>
+          <label>Helyszín<input id="eventLocation" value="Sixty Night Party Park"></label>
+          <label>Jegylink<input id="eventTicketUrl" placeholder="https://tixa.hu/..."></label>
+          <label class="full">Leírás<textarea id="eventDescription"></textarea></label>
+          <label>Borítókép<input type="file" id="eventCover" accept="image/*"></label>
+          <label>Állapot<select id="eventPublished"><option value="true">Publikus</option><option value="false">Rejtett</option></select></label>
+        </div>
+        <div class="actions"><button id="saveEvent" class="btn primary">Mentés</button><button id="resetEvent" class="btn ghost">Új űrlap</button></div>
+      </div></div>
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><h2>Mentett események</h2></div><div class="panel-body"><div id="eventsList" class="list"></div></div></div>
+    </section>
+
+    <section id="performersView" class="view hidden">
+      <div class="panel"><div class="panel-head"><h2>Fellépő szerkesztése</h2></div><div class="panel-body">
+        <input type="hidden" id="performerId"><div class="grid">
+          <label>Név<input id="performerName"></label><label>Szerepkör<input id="performerRole" placeholder="DJ / Házigazda"></label>
+          <label class="full">Bemutatkozás<textarea id="performerBio"></textarea></label>
+          <label>Instagram / weboldal<input id="performerUrl"></label><label>Profilkép<input type="file" id="performerImage" accept="image/*"></label>
+        </div><div class="actions"><button id="savePerformer" class="btn primary">Mentés</button><button id="resetPerformer" class="btn ghost">Új űrlap</button></div>
+      </div></div>
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><h2>Fellépők</h2></div><div class="panel-body"><div id="performersList" class="list"></div></div></div>
+    </section>
+
+    <section id="albumsView" class="view hidden">
+      <div class="panel"><div class="panel-head"><div><h2>Album létrehozása / szerkesztése</h2><p class="cms-help">Az albumok a dátum szerint, a legújabbal kezdve jelennek meg. Egy eseményhez csak egy album marad aktív.</p></div></div><div class="panel-body">
+        <input type="hidden" id="albumId"><div class="grid">
+          <label>Album neve<input id="albumName"></label><label>Dátum<input type="date" id="albumDate"></label>
+          <label>Facebook album<input id="albumFacebook"></label><label>Publikus<select id="albumPublished"><option value="true">Igen</option><option value="false">Nem</option></select></label>
+          <label class="full">Leírás<textarea id="albumDescription"></textarea></label>
+          <label>Borítókép<input type="file" id="albumCover" accept="image/*"><span class="cms-file-note">Fekvő kép ajánlott. Ha nincs külön borító, az album első fotója lesz a borító.</span></label>
+          <label class="cms-check"><input type="checkbox" id="albumRemoveCover"><span>Jelenlegi külön borítókép törlése</span></label>
+          <div class="album-cover-preview-box"><img id="albumCoverPreview" class="hidden" alt="Albumborító előnézet"><div><p id="albumCoverEmpty">Még nincs külön borítókép. Az első albumfotó fog megjelenni borítóként.</p><p>A képek sorrendjét lent az „Album képei” résznél tudod módosítani.</p></div></div>
+        </div><div class="actions"><button id="saveAlbum" class="btn primary">Album mentése</button><button id="resetAlbum" class="btn ghost">Új űrlap</button></div>
+      </div></div>
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><h2>Képek feltöltése</h2></div><div class="panel-body">
+        <label>Válassz albumot<select id="uploadAlbumSelect"></select></label>
+        <div class="upload-zone" style="margin-top:14px"><input type="file" id="albumPhotos" accept="image/*" multiple><p>Egyszerre több képet is kiválaszthatsz. A rendszer webre optimalizálja őket.</p><button id="uploadPhotos" class="btn primary">Képek feltöltése</button><div class="progress"><span id="uploadProgress"></span></div><div id="uploadStatus" style="margin-top:10px;color:var(--muted)"></div></div>
+      </div></div>
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Albumok</h2><p class="cms-help">A rendszer automatikusan összevonja az azonos nevű albumokat és helyreteszi a hozzájuk tartozó fotókat.</p></div><button id="repairAlbums" class="btn ghost">Albumok rendbetétele</button></div><div class="panel-body"><div id="albumRepairStatus" class="cms-inline-status"></div><div id="albumsList" class="list"></div></div></div>
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Album képei</h2><p class="cms-help">Minden kép csak abban az albumban jelenik meg, amelyhez hozzá van rendelve. Itt külön-külön át is helyezheted őket.</p></div></div><div class="panel-body"><div class="photo-manager-toolbar"><label>Megjelenítés<select id="photoManagerAlbum"></select></label><div id="photoAssignmentStatus" class="cms-inline-status"></div></div><div id="photosList" class="photo-manager-grid" style="margin-top:14px"></div></div></div>
+    </section>
+
+    <section id="videosView" class="view hidden"><div class="panel"><div class="panel-head"><h2>Videók</h2></div><div class="panel-body">
+      <input type="hidden" id="videoId"><div class="grid"><label>Cím<input id="videoTitle"></label><label>Típus<select id="videoType"><option>YouTube</option><option>TikTok</option><option>Facebook</option><option>Saját videó</option></select></label><label class="full">Link<input id="videoUrl"></label></div>
+      <div class="actions"><button id="saveVideo" class="btn primary">Mentés</button><button id="resetVideo" class="btn ghost">Új űrlap</button></div>
+      <div id="videosList" class="list" style="margin-top:20px"></div>
+    </div></div></section>
+
+    <section id="sponsorsView" class="view hidden"><div class="panel"><div class="panel-head"><h2>Szponzorok</h2></div><div class="panel-body">
+      <input type="hidden" id="sponsorId"><div class="grid"><label>Név<input id="sponsorName"></label><label>Weboldal<input id="sponsorUrl"></label><label>Logó<input type="file" id="sponsorLogo" accept="image/*"></label><label>Sorrend<input type="number" id="sponsorOrder" value="0"></label></div>
+      <div class="actions"><button id="saveSponsor" class="btn primary">Mentés</button><button id="resetSponsor" class="btn ghost">Új űrlap</button></div>
+      <div id="sponsorsList" class="list" style="margin-top:20px"></div>
+    </div></div></section>
+
+    <section id="ticketsView" class="view hidden"><div class="panel"><div class="panel-head"><div><h2>Jegytípusok</h2><p class="cms-help">A „Weboldalon rendelhető” jegyek jelennek meg a nyilvános jegyrendelési űrlapon.</p></div></div><div class="panel-body">
+      <input type="hidden" id="ticketId"><div class="grid">
+        <label>Megnevezés<input id="ticketName" placeholder="Elővételes belépő"></label>
+        <label>Esemény<select id="ticketEventId"><option value="">Nincs eseményhez kötve</option></select></label>
+        <label>Ár megjelenített szövege<input id="ticketPrice" placeholder="2 500 Ft"></label>
+        <label>Egységár számként (Ft)<input type="number" min="0" step="1" id="ticketPriceValue" placeholder="2500"></label>
+        <label>Tixa / külső jegylink<input id="ticketUrl" placeholder="https://tixa.hu/..."></label>
+        <label>Aktív<select id="ticketActive"><option value="true">Igen</option><option value="false">Nem</option></select></label>
+        <label>Weboldalon rendelhető<select id="ticketOrderEnabled"><option value="false">Nem</option><option value="true">Igen</option></select></label>
+        <label>Maximum darabszám rendelésenként<input type="number" min="1" max="20" id="ticketMaxPerOrder" value="6"></label>
+        <label>Jegykép / eseményplakát<input type="file" id="ticketImage" accept="image/*"><span class="cms-file-note">Ez a kép kerül a letölthető belépőjegyre.</span></label>
+        <label class="cms-check"><input type="checkbox" id="ticketRemoveImage"><span>Jelenlegi jegykép törlése</span></label>
+        <div class="ticket-image-preview-box"><img id="ticketImagePreview" class="hidden" alt="Jegykép előnézet"><p id="ticketImageEmpty">Még nincs jegykép beállítva. Tölts fel egy fekvő eseményplakátot vagy borítóképet.</p><p>A rendszer a képet automatikusan méretezi és a jegy felső részére helyezi.</p></div>
+      </div>
+      <div class="actions"><button id="saveTicket" class="btn primary">Mentés</button><button id="resetTicket" class="btn ghost">Új űrlap</button><a class="btn ghost" href="/jegyrendeles.html" target="_blank" rel="noopener">Jegyrendelési oldal</a></div>
+      <div id="ticketsList" class="list" style="margin-top:20px"></div>
+    </div></div></section>
+
+
+    <section id="ordersView" class="view hidden">
+      <div class="panel"><div class="panel-head"><div><h2>Jegyrendelési beállítások</h2><p class="cms-help">A vásárló rendelése a Firebase-be kerül. A Billingo-s számlát külön készíted el, majd itt egyesítheted a képes belépőjeggyel.</p></div><a class="btn ghost" href="/jegyrendeles.html" target="_blank" rel="noopener">Publikus oldal</a></div><div class="panel-body">
+        <div class="grid">
+          <label>Jegyrendelés állapota<select id="ticketShopOrderEnabled"><option value="false">Kikapcsolva</option><option value="true">Bekapcsolva</option></select></label>
+          <label>Kapcsolati e-mail<input type="email" id="ticketShopContactEmail" placeholder="info@sixtynight.hu"></label>
+          <label>Vállalkozás neve<input id="ticketShopCompanyName" placeholder="Nagy Richárd E.V."></label>
+          <label>Adószám<input id="ticketShopTaxNumber"></label>
+          <label class="full">Vállalkozás címe<input id="ticketShopCompanyAddress"></label>
+          <label>Bankszámla kedvezményezettje<input id="ticketShopBankName"></label>
+          <label>Bankszámlaszám<input id="ticketShopBankAccount"></label>
+          <label>Telefonszám<input id="ticketShopPhone"></label>
+          <label>Fizetési határidő (nap)<input type="number" min="1" max="30" id="ticketShopPaymentDays" value="3"></label>
+          <label class="full">Átutalási tájékoztató<textarea id="ticketShopPaymentInstructions" placeholder="A közleményben tüntesd fel a rendelési azonosítót."></textarea></label>
+          <label>Adatkezelési tájékoztató linkje<input id="ticketShopPrivacyUrl" placeholder="adatkezeles.html"></label>
+          <label>Vásárlási feltételek linkje<input id="ticketShopTermsUrl" placeholder="vasarlasi-feltetelek.html"></label>
+          <label class="full">Visszaigazoló szöveg<textarea id="ticketShopConfirmationText" placeholder="A rendelést rögzítettük. A jegyet és a számlát a fizetés ellenőrzése után küldjük."></textarea></label>
+        </div>
+        <div class="actions"><button id="saveTicketShopSettings" class="btn primary">Beállítások mentése</button></div>
+      </div></div>
+
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Beérkezett rendelések</h2><p class="cms-help">Az új rendelések csak az adminban olvashatók.</p></div><span id="ordersSummary" class="cms-status">0 rendelés</span></div><div class="panel-body">
+        <div class="grid order-filters">
+          <label>Keresés<input id="orderSearch" placeholder="Név, e-mail vagy rendelési azonosító"></label>
+          <label>Állapot<select id="orderStatusFilter"><option value="">Minden állapot</option><option value="new">Új</option><option value="awaiting_payment">Fizetésre vár</option><option value="paid">Fizetve</option><option value="ticket_generated">Jegy elkészült</option><option value="sent">Elküldve</option><option value="cancelled">Lemondva</option></select></label>
+        </div>
+        <div id="ordersList" class="order-list" style="margin-top:18px"></div>
+      </div></div>
+
+      <div id="orderDetailPanel" class="panel hidden" style="margin-top:18px"><div class="panel-head"><div><h2>Rendelés kezelése</h2><p id="orderDetailHeading" class="cms-help"></p></div><button id="closeOrderDetail" class="btn ghost">Bezárás</button></div><div class="panel-body">
+        <input type="hidden" id="orderId">
+        <div id="orderDetail" class="order-detail"></div>
+        <div class="grid" style="margin-top:18px">
+          <label>Rendelés állapota<select id="orderStatus"><option value="new">Új</option><option value="awaiting_payment">Fizetésre vár</option><option value="paid">Fizetve</option><option value="ticket_generated">Jegy elkészült</option><option value="sent">Elküldve</option><option value="cancelled">Lemondva</option></select></label>
+          <label>Billingo számla PDF<input type="file" id="orderInvoicePdf" accept="application/pdf"><span class="cms-file-note">A fájl nem kerül feltöltésre: csak a böngésződben lesz egyesítve.</span></label>
+        </div>
+        <div class="actions">
+          <button id="saveOrderStatus" class="btn primary">Állapot mentése</button>
+          <button id="generateTicketPdf" class="btn primary">Képes jegy letöltése</button>
+          <button id="mergeInvoiceTicket" class="btn ghost">Számla + jegy egyesítése</button>
+          <button id="openOrderEmail" class="btn ghost">Gmail megnyitása</button>
+          <button id="markOrderSent" class="btn ghost">Elküldve jelölés</button>
+        </div>
+        <div class="notice" style="margin-top:18px;margin-bottom:0">A böngésző biztonsági korlátozása miatt a PDF nem csatolható automatikusan a Gmailhez. Töltsd le az egyesített fájlt, majd csatold a megnyíló levélhez.</div>
+      </div></div>
+    </section>
+
+    <section id="pagesView" class="view hidden">
+      <div class="panel"><div class="panel-head"><h2>Oldal létrehozása / szerkesztése</h2></div><div class="panel-body">
+        <input type="hidden" id="pageId">
+        <div class="grid">
+          <label>Oldal típusa<select id="pageType"><option value="custom">Új, külön oldal</option><option value="existing">Meglévő oldal szerkesztése</option></select></label>
+          <label>Meglévő oldal<select id="pageTargetPath"><option value="">Nem meglévő oldal</option><option value="index.html">Főoldal</option><option value="esemenyek.html">Események</option><option value="fellepok.html">Fellépők</option><option value="fotok.html">Fotók</option><option value="videotar.html">Videótár</option><option value="rolunk.html">Rólunk</option><option value="helyszin.html">Helyszín</option><option value="vip.html">VIP</option><option value="kapcsolat.html">Kapcsolat</option><option value="mulat-hatvan.html">Mulat Hatvan</option><option value="uv-cirkusz.html">UV Cirkusz 2.0</option><option value="holi-jungle.html">Holi Jungle</option></select></label>
+          <label>Oldal címe<input id="pageTitle" placeholder="Például: GYIK"></label>
+          <label>Főcím<input id="pageHeroTitle" placeholder="Az oldalon látható nagy főcím"></label>
+          <label>URL azonosító<input id="pageSlug" placeholder="gyik"></label>
+          <label>Menü felirata<input id="pageMenuLabel" placeholder="GYIK"></label>
+          <label>Menü sorrend<input type="number" id="pageOrder" value="100"></label>
+          <label>Állapot<select id="pagePublished"><option value="true">Publikus</option><option value="false">Rejtett</option></select></label>
+          <label>Menüben látható<select id="pageShowInMenu"><option value="true">Igen</option><option value="false">Nem</option></select></label>
+          <label>Meglévő oldal tartalma<select id="pageReplaceMain"><option value="false">Az eredeti oldal marad, a CMS-tartalom alul jelenik meg</option><option value="true">A teljes középső tartalom cseréje</option></select></label>
+          <label class="full">Bevezető<textarea id="pageIntro" placeholder="Rövid bevezető szöveg"></textarea></label>
+          <label class="full">Oldal tartalma<textarea id="pageContent" style="min-height:260px" placeholder="Ide írd az oldal teljes tartalmát. Egyszerű HTML is használható."></textarea></label>
+          <label>Borítókép<input type="file" id="pageCover" accept="image/*"></label>
+          <label>SEO cím<input id="pageSeoTitle"></label>
+          <label class="full">SEO leírás<textarea id="pageSeoDescription"></textarea></label>
+        </div>
+        <p style="color:var(--muted);line-height:1.6">Új oldalnál külön webcím készül. Meglévő oldal szerkesztésénél kiválaszthatod, hogy csak a főcím és a kiegészítő tartalom változzon, vagy a teljes középső oldalrészt a CMS kezelje.</p>
+        <div class="actions"><button id="savePage" class="btn primary">Oldal mentése</button><button id="resetPage" class="btn ghost">Új űrlap</button><a id="previewPage" class="btn ghost" target="_blank" rel="noopener">Előnézet</a></div>
+      </div></div>
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><h2>Minden szerkeszthető oldal</h2></div><div class="panel-body"><div id="pagesList" class="list"></div></div></div>
+    </section>
+
+    <section id="settingsView" class="view hidden"><div class="panel"><div class="panel-head"><h2>Weboldal-beállítások</h2></div><div class="panel-body">
+      <div class="grid"><label>Főcím<input id="settingHeroTitle" value="AZ ÉJSZAKA A TIÉD."></label><label>Kiemelt esemény<input id="settingFeaturedEvent"></label><label>Kapcsolati e-mail<input type="email" id="settingEmail"></label><label>Telefonszám<input id="settingPhone"></label><label>Facebook<input id="settingFacebook"></label><label>Instagram<input id="settingInstagram"></label><label class="full">Helyszín<input id="settingLocation" value="Sixty Night Party Park"></label></div>
+      <div class="actions"><button id="saveSettings" class="btn primary">Beállítások mentése</button></div>
+    </div></div></section>
+  </main>
+</div>
+<div id="toast" class="toast hidden"></div>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script type="module" src="../assets/js/cms-v6-7-8.js?v=6.7.8"></script>
+</body></html>

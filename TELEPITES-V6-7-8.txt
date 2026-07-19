@@ -1,0 +1,22 @@
+SIXTY NIGHT PARTY – V6.7.8 ALBUM- ÉS HÁZIREND JAVÍTÁS
+
+MIT JAVÍT:
+- A fotóoldalon a beépített képek akkor sem tűnnek el, ha a Firebase-album még üres vagy átmenetileg nem olvasható.
+- A Firebase-képek kizárólag ahhoz az albumhoz kerülnek, amelyhez az albumId vagy a Storage mappa alapján tartoznak.
+- Az admin Albumok részében minden kép külön másik albumba helyezhető.
+- Külön nézet van az összes és az albumhoz nem rendelt képekhez.
+- Az Albumok rendbetétele gomb csak biztos azonosítás alapján javít, nem kever össze képeket.
+- A Házirend menüpont JavaScript/Firebase hiba esetén is látható.
+- A Házirend oldal közvetlenül is megpróbálja betölteni a page-hazirend dokumentumot.
+
+FELTÖLTÉS:
+1. A javítócsomag tartalmát a GitHub repository gyökerébe töltsd fel.
+2. A mappaszerkezet maradjon meg: assets/js és assets/css.
+3. A meglévő fájlokat írd felül.
+4. Firebase-szabályt nem kell módosítani.
+5. Várj 2–5 percet, majd Ctrl+F5.
+6. Admin > Albumok > Albumok rendbetétele.
+7. Admin > Albumok > Album képei > Nincs albumhoz rendelve: az esetleg megmaradt képeket kézzel tedd a megfelelő albumba.
+
+FONTOS:
+A V6.7.8 nem töröl fotót és nem találomra sorolja be. Csak a biztos Storage-mappa, jelenlegi albumazonosító vagy egyértelmű albumnév alapján javít.

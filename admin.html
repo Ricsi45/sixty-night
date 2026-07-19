@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sixty Night CMS V6.7.6</title>
-<link rel="stylesheet" href="assets/css/cms-v6-7-6.css?v=6.7.6">
+<link rel="stylesheet" href="assets/css/cms-v6-7-8.css?v=6.7.8">
 </head>
 <body>
 <section id="loginView" class="login">
@@ -189,7 +189,7 @@
         <div class="upload-zone" style="margin-top:14px"><input type="file" id="albumPhotos" accept="image/*" multiple><p>Egyszerre több képet is kiválaszthatsz. A rendszer webre optimalizálja őket.</p><button id="uploadPhotos" class="btn primary">Képek feltöltése</button><div class="progress"><span id="uploadProgress"></span></div><div id="uploadStatus" style="margin-top:10px;color:var(--muted)"></div></div>
       </div></div>
       <div class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Albumok</h2><p class="cms-help">A rendszer automatikusan összevonja az azonos nevű albumokat és helyreteszi a hozzájuk tartozó fotókat.</p></div><button id="repairAlbums" class="btn ghost">Albumok rendbetétele</button></div><div class="panel-body"><div id="albumRepairStatus" class="cms-inline-status"></div><div id="albumsList" class="list"></div></div></div>
-      <div class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Album képei</h2><p class="cms-help">A sorrend balról jobbra, fentről lefelé érvényes a webes galériában.</p></div></div><div class="panel-body"><label>Album<select id="photoManagerAlbum"></select></label><div id="photosList" class="photo-manager-grid" style="margin-top:14px"></div></div></div>
+      <div class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Album képei</h2><p class="cms-help">Minden kép csak abban az albumban jelenik meg, amelyhez hozzá van rendelve. Itt külön-külön át is helyezheted őket.</p></div></div><div class="panel-body"><div class="photo-manager-toolbar"><label>Megjelenítés<select id="photoManagerAlbum"></select></label><div id="photoAssignmentStatus" class="cms-inline-status"></div></div><div id="photosList" class="photo-manager-grid" style="margin-top:14px"></div></div></div>
     </section>
 
     <section id="videosView" class="view hidden"><div class="panel"><div class="panel-head"><h2>Videók</h2></div><div class="panel-body">
@@ -303,5 +303,5 @@
 </div>
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-<script type="module" src="assets/js/cms-v6-7-6.js?v=6.7.6"></script>
+<script type="module" src="assets/js/cms-v6-7-8.js?v=6.7.8"></script>
 </body></html>

@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getFirestore, collection, getDocs, doc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
-import { firebaseConfig } from "./firebase-config.js?v=6.7.7";
+import { firebaseConfig } from "./firebase-config.js?v=6.7.6";
 
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -260,7 +260,7 @@ function eventCardHtml(event) {
 async function syncEvents() {
   const file = currentFile();
   if (file !== "index.html" && file !== "esemenyek.html" && !document.getElementById("firebaseEvents")) return;
-  const { active, inactiveKeys } = await readPublishedCollectionState("events");
+  const { active, inactiveKeys } = await readCollectionState("events");
   const cards = file === "index.html"
     ? [...document.querySelectorAll("main .event-card")]
     : [...document.querySelectorAll("main .history-card")];
@@ -583,7 +583,7 @@ function publicFacingText(value, fallback = "") {
 }
 
 async function syncExistingPage() {
-  const { active } = await readPublishedCollectionState("pages");
+  const { active } = await readCollectionState("pages");
   const file = currentFile();
   const isHomepage = file === "index.html";
   const storedPage = active.find((item) => item.pageType === "existing" && String(item.targetPath || "").replace(/^\//, "") === file);
