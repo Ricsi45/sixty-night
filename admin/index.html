@@ -2,8 +2,8 @@
 <html lang="hu">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sixty Night CMS V6.7.1</title>
-<link rel="stylesheet" href="../assets/css/cms-v6-7-1.css?v=6.7.1">
+<title>Sixty Night CMS V6.7.5</title>
+<link rel="stylesheet" href="../assets/css/cms-v6-7-5.css?v=6.7.5">
 </head>
 <body>
 <section id="loginView" class="login">
@@ -212,6 +212,9 @@
         <label>Aktív<select id="ticketActive"><option value="true">Igen</option><option value="false">Nem</option></select></label>
         <label>Weboldalon rendelhető<select id="ticketOrderEnabled"><option value="false">Nem</option><option value="true">Igen</option></select></label>
         <label>Maximum darabszám rendelésenként<input type="number" min="1" max="20" id="ticketMaxPerOrder" value="6"></label>
+        <label>Jegykép / eseményplakát<input type="file" id="ticketImage" accept="image/*"><span class="cms-file-note">Ez a kép kerül a letölthető belépőjegyre.</span></label>
+        <label class="cms-check"><input type="checkbox" id="ticketRemoveImage"><span>Jelenlegi jegykép törlése</span></label>
+        <div class="ticket-image-preview-box"><img id="ticketImagePreview" class="hidden" alt="Jegykép előnézet"><p id="ticketImageEmpty">Még nincs jegykép beállítva. Tölts fel egy fekvő eseményplakátot vagy borítóképet.</p><p>A rendszer a képet automatikusan méretezi és a jegy felső részére helyezi.</p></div>
       </div>
       <div class="actions"><button id="saveTicket" class="btn primary">Mentés</button><button id="resetTicket" class="btn ghost">Új űrlap</button><a class="btn ghost" href="/jegyrendeles.html" target="_blank" rel="noopener">Jegyrendelési oldal</a></div>
       <div id="ticketsList" class="list" style="margin-top:20px"></div>
@@ -219,7 +222,7 @@
 
 
     <section id="ordersView" class="view hidden">
-      <div class="panel"><div class="panel-head"><div><h2>Jegyrendelési beállítások</h2><p class="cms-help">A vásárló rendelése a Firebase-be kerül. A Billingo-s számlát külön készíted el, majd itt egyesítheted a QR-kódos jeggyel.</p></div><a class="btn ghost" href="/jegyrendeles.html" target="_blank" rel="noopener">Publikus oldal</a></div><div class="panel-body">
+      <div class="panel"><div class="panel-head"><div><h2>Jegyrendelési beállítások</h2><p class="cms-help">A vásárló rendelése a Firebase-be kerül. A Billingo-s számlát külön készíted el, majd itt egyesítheted a képes belépőjeggyel.</p></div><a class="btn ghost" href="/jegyrendeles.html" target="_blank" rel="noopener">Publikus oldal</a></div><div class="panel-body">
         <div class="grid">
           <label>Jegyrendelés állapota<select id="ticketShopOrderEnabled"><option value="false">Kikapcsolva</option><option value="true">Bekapcsolva</option></select></label>
           <label>Kapcsolati e-mail<input type="email" id="ticketShopContactEmail" placeholder="info@sixtynight.hu"></label>
@@ -255,15 +258,13 @@
         </div>
         <div class="actions">
           <button id="saveOrderStatus" class="btn primary">Állapot mentése</button>
-          <button id="generateTicketPdf" class="btn primary">QR-jegy letöltése</button>
+          <button id="generateTicketPdf" class="btn primary">Képes jegy letöltése</button>
           <button id="mergeInvoiceTicket" class="btn ghost">Számla + jegy egyesítése</button>
           <button id="openOrderEmail" class="btn ghost">Gmail megnyitása</button>
           <button id="markOrderSent" class="btn ghost">Elküldve jelölés</button>
-          <button id="revokeOrderTickets" class="btn danger">Jegyek érvénytelenítése</button>
         </div>
         <div class="notice" style="margin-top:18px;margin-bottom:0">A böngésző biztonsági korlátozása miatt a PDF nem csatolható automatikusan a Gmailhez. Töltsd le az egyesített fájlt, majd csatold a megnyíló levélhez.</div>
       </div></div>
-      <div id="ticketQrRender" class="hidden" aria-hidden="true"></div>
     </section>
 
     <section id="pagesView" class="view hidden">
@@ -299,7 +300,6 @@
   </main>
 </div>
 <div id="toast" class="toast hidden"></div>
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-<script type="module" src="../assets/js/cms-v6-7-1.js?v=6.7.1"></script>
+<script type="module" src="../assets/js/cms-v6-7-5.js?v=6.7.5"></script>
 </body></html>

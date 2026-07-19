@@ -1,0 +1,21 @@
+SIXTY NIGHT V6.7.5 – KÉPES BELÉPŐJEGY JAVÍTÓCSOMAG
+
+MIT TARTALMAZ?
+- A QR-kódos beléptetés nincs benne.
+- Minden jegytípushoz feltölthető saját kép vagy eseményplakát.
+- A feltöltött kép automatikusan rákerül a letölthető PDF-jegyre.
+- A jegyen QR-kód helyett jól olvasható egyedi jegyszám szerepel.
+- A Billingo számla és a képes jegy továbbra is egy PDF-be egyesíthető.
+
+FELTÖLTÉS
+1. A csomag tartalmát töltsd fel a GitHub repository gyökerébe.
+2. Engedélyezd a meglévő fájlok felülírását.
+3. Várd meg a GitHub Pages frissülését.
+4. Nyisd meg az admint, majd a Jegytípusok menüpontban tölts fel jegyképet.
+
+NEM KELL MÓDOSÍTANI
+- Firestore szabályokat
+- Storage szabályokat
+- Firebase beállításokat
+
+A stabil főoldal, visszaszámláló és jegyrendelési folyamat nem változik.
